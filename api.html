@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeekCloud - 大模型API专区</title>
+    <link rel="icon" href="https://www.deekcloud.com/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                        secondary: '#8b5cf6',
+                        accent: '#ec4899',
+                        dark: '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob { animation: blob 15s infinite alternate ease-in-out; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+        
+        /* 终端代码打字动画游标 */
+        @keyframes blink { 50% { opacity: 0; } }
+        .cursor-blink { animation: blink 1s step-start infinite; }
+
+        /* API节点发光脉冲 */
+        @keyframes node-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
+        .animate-node { animation: node-pulse 2s infinite; }
+    </style>
+</head>
+<body class="text-gray-800 font-sans antialiased relative flex flex-col min-h-screen bg-[#f8fafc]">
+
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-300/20 mix-blend-multiply filter blur-[100px] animate-blob"></div>
+        <div class="absolute top-[20%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-purple-300/20 mix-blend-multiply filter blur-[100px] animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-[-10%] left-[20%] w-[60vw] h-[60vw] rounded-full bg-indigo-200/30 mix-blend-multiply filter blur-[100px] animate-blob animation-delay-4000"></div>
+    </div>
+
+    <nav class="sticky top-0 z-50 bg-white/60 backdrop-blur-md border-b border-white/50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+               <div class="flex-shrink-0 flex items-center cursor-pointer">
+                    <img src="https://www.deekcloud.com/static/svg/logo.svg" 
+                        alt="DeekCloud Logo" 
+                        class="w-auto object-contain"
+                        style="height: clamp(10px, 5vw, 20px);">
+                </div>
+                
+                <div class="hidden md:flex space-x-8 h-full">
+                    <a href="index.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300">首页</a>
+                    <a href="api.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-primary text-sm font-medium text-primary transition-all duration-300">大模型API</a>
+                    <a href="#" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300">产品与方案</a>
+                    <a href="#" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300">常见问题</a>
+                    <a href="#" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300">关于我们</a>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-2 text-primary font-semibold">
+                    <svg fill="none" height="32" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg" style="flex: 0 0 auto; line-height: 1;"><title>Telegram</title><defs><linearGradient id="tgGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#37AEE2"></stop><stop offset="100%" stop-color="#1E96C8"></stop></linearGradient></defs><circle cx="12" cy="12" r="12" fill="url(#tgGradient)"></circle><path d="M5.49 11.66l11.77-4.54c.54-.21 1.04.14.86.88l-2.01 9.49c-.15.68-.56.85-1.13.53l-3.07-2.26-1.48 1.43c-.16.16-.3.3-.61.3l.22-3.13 5.71-5.16c.25-.22-.05-.35-.39-.13l-7.06 4.44-3.04-.95c-.66-.21-.67-.66.14-.97z" fill="white"></path></svg>
+                    <span>@deekcloud</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-20">
+            <div class="bg-white/60 backdrop-blur-md rounded-3xl p-8 md:p-12 shadow-sm border border-white relative overflow-hidden flex flex-col md:flex-row items-center justify-between min-h-[400px]">
+                <div class="relative z-10 max-w-xl mb-10 md:mb-0">
+                    <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-primary text-xs font-semibold mb-6 shadow-sm">
+                        <span class="flex w-2 h-2 rounded-full bg-primary mr-2 animate-pulse"></span>
+                        已接入 20+ 款全球顶尖 AI 模型
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight leading-tight">
+                        全球顶尖大模型 <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-primary">原生API接入</span>
+                    </h1>
+                    <p class="text-gray-600 text-base md:text-lg mb-8 leading-relaxed">
+                        官方品质，渠道底价。高并发、低延迟，一行代码平滑迁移。<br>专注业务创新，基础设施交给我们。
+                    </p>
+                    <div class="flex space-x-4">
+                        <button class="px-8 py-3.5 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-full shadow-lg shadow-purple-500/30 hover:shadow-xl hover:scale-105 transition-all duration-300">
+                            获取专属密钥
+                        </button>
+                        <button class="px-8 py-3.5 bg-white text-gray-700 font-medium rounded-full shadow-sm hover:shadow-md border border-gray-200 hover:border-gray-300 transition-all duration-300">
+                            查看开发文档
+                        </button>
+                    </div>
+                </div>
+
+                <div class="relative w-full md:w-1/2 h-64 md:h-full flex items-center justify-center">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-secondary/10 rounded-full blur-3xl"></div>
+                    <div class="relative w-64 h-64">
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white rounded-2xl shadow-xl border border-gray-100 flex items-center justify-center z-20 animate-node">
+                            <span class="font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-primary to-secondary">API</span>
+                        </div>
+                        <svg class="absolute inset-0 w-full h-full z-10" viewBox="0 0 256 256">
+                            <path d="M128 128 L40 60" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4 4" class="opacity-50" />
+                            <path d="M128 128 L210 50" stroke="#4f46e5" stroke-width="2" stroke-dasharray="4 4" class="opacity-50" />
+                            <path d="M128 128 L50 200" stroke="#ec4899" stroke-width="2" stroke-dasharray="4 4" class="opacity-50" />
+                            <path d="M128 128 L200 190" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4 4" class="opacity-50" />
+                        </svg>
+                        <div class="absolute top-[35px] left-[15px] w-10 h-10 bg-white/90 backdrop-blur rounded-full shadow-md border border-gray-100 flex items-center justify-center text-xs font-bold text-gray-600 z-20 hover:scale-110 transition-transform">GPT</div>
+                        <div class="absolute top-[25px] right-[20px] w-10 h-10 bg-white/90 backdrop-blur rounded-full shadow-md border border-gray-100 flex items-center justify-center text-xs font-bold text-gray-600 z-20 hover:scale-110 transition-transform">Claude</div>
+                        <div class="absolute bottom-[30px] left-[25px] w-10 h-10 bg-white/90 backdrop-blur rounded-full shadow-md border border-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-600 z-20 hover:scale-110 transition-transform">DeepSeek</div>
+                        <div class="absolute bottom-[40px] right-[30px] w-10 h-10 bg-white/90 backdrop-blur rounded-full shadow-md border border-gray-100 flex items-center justify-center text-xs font-bold text-gray-600 z-20 hover:scale-110 transition-transform">Gemini</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 border border-white">
+                    <div class="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <h3 class="text-[17px] font-bold text-gray-800 mb-2">100% 官方原生</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">直连官方数据中心，拒绝二次封包缓存，确保输出质量与官方完全一致。</p>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 border border-white">
+                    <div class="w-12 h-12 bg-purple-50 text-secondary rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                    </div>
+                    <h3 class="text-[17px] font-bold text-gray-800 mb-2">兼容标准协议</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">支持 OpenAI 接口规范，无缝对接各类开源项目及 Telegram 机器人（如 OpenClaw 等）。</p>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 border border-white">
+                    <div class="w-12 h-12 bg-pink-50 text-accent rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-[17px] font-bold text-gray-800 mb-2">企业级高可用</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">自研智能路由算法，多通道并发负载均衡，SLA 稳定性保障高达 99.9%。</p>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 border border-white">
+                    <div class="w-12 h-12 bg-indigo-50 text-indigo-500 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-[17px] font-bold text-gray-800 mb-2">多币种便捷充值</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">突破支付壁垒，支持支付宝、微信、USDT、信用卡等，免除繁琐的绑卡流程。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 relative z-10">
+            <div class="mb-16">
+                <div class="flex items-center space-x-3 mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900 tracking-tight">海外顶级模型</h2>
+                    <div class="h-px flex-grow bg-gradient-to-r from-gray-200 to-transparent"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-10 h-10 bg-orange-50 text-orange-600 rounded-lg flex items-center justify-center font-bold text-xl border border-orange-100">C</div>
+                                <span class="bg-red-50 text-red-500 text-[10px] font-bold px-2 py-1 rounded-full border border-red-100">超强逻辑</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">Claude Opus 4.7</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">具备顶级逻辑推理与复杂代码编写能力，适合重度研发与科研学术场景。</p>
+                            
+                            <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-400">官方指导价</span>
+                                    <span class="text-gray-500 line-through">$15.00 / 1M tokens</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 font-medium">代理特惠价</span>
+                                    <!-- <span class="text-secondary font-bold text-base">$8.50 <span class="text-[10px] text-gray-400 font-normal">/ 1M</span></span> -->
+                                    <span class="text-secondary font-bold text-base">9折起</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full py-2.5 bg-gray-50 text-gray-700 font-semibold text-sm rounded-xl group-hover:bg-gradient-to-r group-hover:from-secondary group-hover:to-primary group-hover:text-white transition-all duration-300 border border-gray-200 group-hover:border-transparent">
+                            立即调用
+                        </button>
+                    </div>
+
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-lg flex items-center justify-center font-bold text-xl border border-blue-100">G</div>
+                                <span class="bg-blue-50 text-blue-500 text-[10px] font-bold px-2 py-1 rounded-full border border-blue-100">超长上下文</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">Gemini 3.1 Pro</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">谷歌最强多模态模型，支持超大上下文窗口，擅长长文档分析与代码生成。</p>
+                            
+                            <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-400">官方指导价</span>
+                                    <span class="text-gray-500 line-through">$7.00 / 1M tokens</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 font-medium">代理特惠价</span>
+                                    <!-- <span class="text-secondary font-bold text-base">$3.80 <span class="text-[10px] text-gray-400 font-normal">/ 1M</span></span> -->
+                                    <span class="text-secondary font-bold text-base">9折起</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full py-2.5 bg-gray-50 text-gray-700 font-semibold text-sm rounded-xl group-hover:bg-gradient-to-r group-hover:from-secondary group-hover:to-primary group-hover:text-white transition-all duration-300 border border-gray-200 group-hover:border-transparent">
+                            立即调用
+                        </button>
+                    </div>
+
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-10 h-10 bg-orange-50 text-orange-500 rounded-lg flex items-center justify-center font-bold text-xl border border-orange-100">C</div>
+                                <span class="bg-emerald-50 text-emerald-500 text-[10px] font-bold px-2 py-1 rounded-full border border-emerald-100">极速响应</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">Claude 3.5 Sonnet</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">速度与智能的完美平衡，日常编码、文本创作与企业自动化首选。</p>
+                            
+                            <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-400">官方指导价</span>
+                                    <span class="text-gray-500 line-through">$3.00 / 1M tokens</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 font-medium">代理特惠价</span>
+                                    <!-- <span class="text-secondary font-bold text-base">$1.90 <span class="text-[10px] text-gray-400 font-normal">/ 1M</span></span> -->
+                                    <span class="text-secondary font-bold text-base">9折起</span> 
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full py-2.5 bg-gray-50 text-gray-700 font-semibold text-sm rounded-xl group-hover:bg-gradient-to-r group-hover:from-secondary group-hover:to-primary group-hover:text-white transition-all duration-300 border border-gray-200 group-hover:border-transparent">
+                            立即调用
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="flex items-center space-x-3 mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900 tracking-tight">国内爆款模型</h2>
+                    <div class="h-px flex-grow bg-gradient-to-r from-gray-200 to-transparent"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center font-bold text-xl border border-blue-100">D</div>
+                                <span class="bg-red-50 text-red-500 text-[10px] font-bold px-2 py-1 rounded-full border border-red-100">国产之光</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">DeepSeek V3 / R1</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">开源界的最强王者，代码与数学能力顶配，极致性价比之选。</p>
+                            
+                            <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-400">官方指导价</span>
+                                    <span class="text-gray-500 line-through">¥2.00 / 1M tokens</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 font-medium">代理特惠价</span>
+                                    <span class="text-primary font-bold text-base">¥1.20 <span class="text-[10px] text-gray-400 font-normal">/ 1M</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full py-2.5 bg-gray-50 text-gray-700 font-semibold text-sm rounded-xl group-hover:bg-gradient-to-r group-hover:from-secondary group-hover:to-primary group-hover:text-white transition-all duration-300 border border-gray-200 group-hover:border-transparent">
+                            立即调用
+                        </button>
+                    </div>
+
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center font-bold text-xl border border-indigo-100">Z</div>
+                                <span class="bg-indigo-50 text-indigo-500 text-[10px] font-bold px-2 py-1 rounded-full border border-indigo-100">企业推荐</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">智谱清言 GLM-4</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">全能型选手，中文语境理解极佳，适合智能客服与企业知识库接入。</p>
+                            
+                            <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-400">官方指导价</span>
+                                    <span class="text-gray-500 line-through">¥100.00 / 1M tokens</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 font-medium">代理特惠价</span>
+                                    <span class="text-primary font-bold text-base">¥65.00 <span class="text-[10px] text-gray-400 font-normal">/ 1M</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full py-2.5 bg-gray-50 text-gray-700 font-semibold text-sm rounded-xl group-hover:bg-gradient-to-r group-hover:from-secondary group-hover:to-primary group-hover:text-white transition-all duration-300 border border-gray-200 group-hover:border-transparent">
+                            立即调用
+                        </button>
+                    </div>
+
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-10 h-10 bg-zinc-100 text-zinc-800 rounded-lg flex items-center justify-center font-bold text-xl border border-zinc-200">K</div>
+                                <span class="bg-zinc-100 text-zinc-600 text-[10px] font-bold px-2 py-1 rounded-full border border-zinc-200">超长文本</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">Kimi (Moonshot)</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">最高支持 200万字 无损上下文，财报分析、长篇小说设定神器。</p>
+                            
+                            <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-400">官方指导价</span>
+                                    <span class="text-gray-500 line-through">¥24.00 / 1M tokens</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 font-medium">代理特惠价</span>
+                                    <span class="text-primary font-bold text-base">¥15.80 <span class="text-[10px] text-gray-400 font-normal">/ 1M</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full py-2.5 bg-gray-50 text-gray-700 font-semibold text-sm rounded-xl group-hover:bg-gradient-to-r group-hover:from-secondary group-hover:to-primary group-hover:text-white transition-all duration-300 border border-gray-200 group-hover:border-transparent">
+                            立即调用
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+            <div class="bg-dark rounded-3xl shadow-2xl overflow-hidden border border-gray-800 flex flex-col md:flex-row">
+                <div class="p-10 md:w-5/12 flex flex-col justify-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+                    <h2 class="text-3xl font-bold text-white mb-4 relative z-10">三行代码，极速切流</h2>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-8 relative z-10">
+                        无需修改您的底层业务逻辑。全面兼容 OpenAI SDK 格式，您只需修改 <code class="text-secondary bg-gray-800 px-1.5 py-0.5 rounded">base_url</code> 和 <code class="text-secondary bg-gray-800 px-1.5 py-0.5 rounded">api_key</code>，即可瞬间无缝切换到 DeekCloud 的高速 API 节点。
+                    </p>
+                    <div class="flex items-center space-x-2 text-sm text-gray-300 relative z-10">
+                        <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>完美兼容各大 Telegram 开源 Bot 及客户端框架</span>
+                    </div>
+                </div>
+
+                <div class="md:w-7/12 bg-[#1e1e1e] p-6 font-mono text-sm relative">
+                    <div class="flex space-x-2 mb-4 absolute top-4 left-4">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <button id="copy-btn" class="absolute top-3 right-4 text-gray-400 hover:text-white transition-colors" title="复制代码">
+    <svg id="copy-icon-default" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+    </svg>
+    <svg id="copy-icon-success" class="w-5 h-5 hidden text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+    </svg>
+</button>
+
+<div class="mt-8 text-gray-300 leading-loose overflow-x-auto">
+<pre><code id="code-content"><span class="text-purple-400">from</span> openai <span class="text-purple-400">import</span> OpenAI
+
+<span class="text-gray-500 italic"># 只需替换为您在 DeekCloud 获取的专属密钥与节点地址</span>
+client = OpenAI(
+    api_key=<span class="text-green-300">"sk-your-deekcloud-key"</span>,
+    base_url=<span class="text-green-300">"https://api.deekcloud.com/v1"</span>
+)
+
+response = client.chat.completions.create(
+    model=<span class="text-green-300">"deepseek-chat"</span>, <span class="text-gray-500 italic"># 或 "gemini-pro" / "claude-3-opus"</span>
+    messages=[
+        {<span class="text-blue-300">"role"</span>: <span class="text-green-300">"user"</span>, <span class="text-blue-300">"content"</span>: <span class="text-green-300">"写一段Python并发处理代码"</span>}
+    ]
+)
+
+<span class="text-blue-400">print</span>(response.choices[<span class="text-orange-300">0</span>].message.content)<span class="cursor-blink font-bold text-white">_</span></code></pre>
+</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark/95 backdrop-blur-sm pt-16 pb-8 border-t border-gray-800 mt-auto relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div>
+                    <span class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 tracking-tight inline-block mb-4">DeekCloud</span>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6 border-l-2 border-gray-700 pl-4">
+                        DeekCloud 致力于为您提供一站式多云代理与顶尖大模型接口服务。我们通过整合全球优质资源，助力企业降本增效，轻松构建AI时代云上业务。
+                    </p>
+                    <div class="flex items-center space-x-2 text-gray-300 bg-gray-800/50 p-3 rounded-full inline-flex">
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                        <span class="font-semibold tracking-wider text-sm">@deekcloud</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-white text-lg font-bold mb-6 relative inline-block">快速导航<span class="absolute bottom-0 left-0 w-8 h-0.5 bg-primary rounded"></span></h3>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>首页</a></li>
+                        <li><a href="api.html" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>大模型API</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>常见问题</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>关于我们</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white text-lg font-bold mb-6 relative inline-block">支持的服务<span class="absolute bottom-0 left-0 w-8 h-0.5 bg-primary rounded"></span></h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-gray-400 text-sm"><span class="w-1.5 h-1.5 bg-secondary rounded-full mr-3 animate-pulse"></span> OpenAI / Claude 系列</li>
+                        <li class="flex items-center text-gray-400 text-sm"><span class="w-1.5 h-1.5 bg-secondary rounded-full mr-3 animate-pulse"></span> Gemini / DeepSeek 系列</li>
+                        <li class="flex items-center text-gray-400 text-sm"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-3 animate-pulse"></span> 阿里云 / 腾讯云国际</li>
+                        <li class="flex items-center text-gray-400 text-sm"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-3 animate-pulse"></span> AWS / Google Cloud</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                <p>&copy; 2026 DeekCloud. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-gray-300 transition-colors">隐私政策</a>
+                    <a href="#" class="hover:text-gray-300 transition-colors">服务条款</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const copyBtn = document.getElementById('copy-btn');
+            const codeContent = document.getElementById('code-content');
+            const iconDefault = document.getElementById('copy-icon-default');
+            const iconSuccess = document.getElementById('copy-icon-success');
+
+            if (copyBtn && codeContent) {
+                copyBtn.addEventListener('click', async () => {
+                    try {
+                        // 获取纯文本内容（自动过滤掉 span 等 HTML 标签）
+                        // 使用 textContent 以保留代码的换行格式
+                        const textToCopy = codeContent.textContent.replace(/_$/, ''); // 去掉尾部模拟的闪烁光标下划线
+
+                        // 调用现代浏览器的 Clipboard API 写入剪贴板
+                        await navigator.clipboard.writeText(textToCopy);
+
+                        // UI 反馈：切换为打勾图标
+                        iconDefault.classList.add('hidden');
+                        iconSuccess.classList.remove('hidden');
+                        
+                        // 2秒后恢复默认图标
+                        setTimeout(() => {
+                            iconDefault.classList.remove('hidden');
+                            iconSuccess.classList.add('hidden');
+                        }, 2000);
+
+                    } catch (err) {
+                        console.error('复制失败:', err);
+                        alert('复制失败，请手动选择复制。');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
