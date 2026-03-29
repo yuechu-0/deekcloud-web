@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeekCloud - 产品与方案 | 聚合全球云服务</title>
+    <link rel="icon" href="images/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                        secondary: '#8b5cf6',
+                        accent: '#ec4899',
+                        dark: '#0f172a',
+                        scenariotab: '#5851ff',
+                        heroBg: '#e8f3f8'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob { animation: blob 15s infinite alternate ease-in-out; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 7s ease-in-out 2s infinite; }
+        
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-animate {
+            animation: fade-in-up 0.4s ease-out forwards;
+            opacity: 0;
+        }
+
+        .css-cloud {
+            position: relative;
+            background: linear-gradient(to bottom right, #60a5fa, #3b82f6);
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
+        }
+        .css-cloud::before, .css-cloud::after {
+            content: '';
+            position: absolute;
+            background: inherit;
+            border-radius: 50%;
+            z-index: -1;
+        }
+        .css-cloud::before { width: 50%; height: 100%; top: -40%; left: 15%; }
+        .css-cloud::after { width: 40%; height: 80%; top: -20%; right: 15%; }
+
+        /* =========================================================
+           "覆盖全线云产品" 核心模块样式
+           ========================================================= */
+        .product-list { width: 100%; padding-bottom: 80px; position: relative; z-index: 10; margin-top: 20px;}
+        .product-list .content { margin: 0 auto; width: 1240px; max-width: 100%; }
+        .product-list .title { color: #0f172a; font-size: 32px; font-weight: 800; text-align: center; letter-spacing: -0.5px;}
+        
+        .platform-tabs { display: flex; gap: 40px; justify-content: center; margin-top: 30px; }
+        .platform-tab { background: none; border: none; border-bottom: 2px solid transparent; color: #64748b; cursor: pointer; font-size: 17px; font-weight: 500; padding: 10px 4px; text-align: center; transition: all .3s ease; white-space: nowrap;}
+        .platform-tab:hover, .platform-tab.active { color: #5934ff; }
+        .platform-tab.active { border-bottom: 2px solid #5934ff; font-weight: 700; color: #5934ff;}
+        
+        .platform-intro { margin-top: 20px; }
+        .platform-intro .intro-content { align-items: center; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .platform-intro .intro-text { color: #64748b; font-size: 14px; font-weight: 400; text-align: center; }
+        
+        /* 新增：折扣标签样式 */
+        .platform-intro .intro-discount {
+            background-color: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: #ef4444;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 6px;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
+        }
+
+        .platform-intro .intro-link { color: #5934ff; cursor: pointer; font-size: 14px; font-weight: 500; text-decoration: none; transition: all .3s ease; display: inline-flex; align-items: center; }
+        .platform-intro .intro-link:hover { color: #4629d9; text-decoration: underline; }
+        
+        .product-box { display: flex; margin-top: 40px; }
+        @media (max-width: 768px) { .product-box { flex-direction: column; margin-top: 25px; } }
+        
+        /* 左侧菜单 - 紧凑化 */
+        .product-box .left { margin-bottom: 20px; width: 250px; flex-shrink: 0; display: flex; flex-direction: column; gap: 2px; }
+        .left-item { background: transparent; border: none; border-radius: 8px; box-sizing: border-box; cursor: pointer; display: flex; height: 48px; line-height: 24px; padding: 12px 20px; text-align: left; transition: all .3s; align-items: center; }
+        .left-item:hover:not(.active) { background-color: #f1f5f9; }
+        .left-item.active { background: linear-gradient(90deg, #5934ff, #7154ff); color: #fff; box-shadow: 0 4px 15px rgba(89,52,255,0.25); }
+        
+        .left-item-icon { height: 20px; margin-right: 14px; width: 20px; display: flex; align-items: center; justify-content: center; color: #64748b; transition: all 0.3s; }
+        .left-item:hover .left-item-icon { color: #5934ff; }
+        .left-item.active .left-item-icon { color: #fff; }
+        
+        .left-item-title { transition: all .3s; font-size: 14px; color: #475569; font-weight: 500;}
+        .left-item:hover .left-item-title { color: #1e293b; }
+        .left-item.active .left-item-title { font-weight: 600; color: #fff; }
+        
+        /* 右侧产品网格 - 卡片小型化 */
+        .product-box .right { display: flex; justify-content: space-between; margin-left: 24px; width: 100%; }
+        @media (max-width: 768px) { .product-box .right { flex-direction: column; margin-left: 0; } }
+        
+        .product-grid { display: grid; gap: 14px; grid-template-columns: repeat(3, 1fr); align-content: start; width: 100%;}
+        @media (max-width: 1024px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; gap: 12px;} }
+        
+        .product-item { background-color: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 20px; transition: all .3s ease; display: flex; flex-direction: column; justify-content: space-between; min-height: 140px;}
+        
+        /* 卡片 Hover 交互 */
+        .product-item:hover { box-shadow: 0 8px 25px rgba(89, 52, 255, 0.08); transform: translateY(-3px); border-color: #cbd5e1; }
+        
+        .product-item-title { color: #0f172a; font-size: 15px; font-weight: 700; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 1; line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+        .product-item-desc { color: #64748b; font-size: 12px; line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 1; line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        .product-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+        .product-tag { background-color: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 4px; color: #64748b; font-size: 11px; font-weight: 500; padding: 2px 8px; }
+        
+        /* 了解详情 按钮 Hover 联动 */
+        .product-btn { align-self: flex-start; background: transparent; border: 1px solid #5934ff; border-radius: 6px; color: #5934ff; cursor: pointer; display: inline-flex; align-items: center; font-size: 12px; font-weight: 500; padding: 5px 14px; transition: all .3s; text-decoration: none; }
+        .product-btn svg { width: 12px; height: 12px; margin-left: 4px; transition: transform 0.3s ease; }
+        
+        .product-item:hover .product-btn { background-color: #5934ff; color: #fff; box-shadow: 0 4px 12px rgba(89,52,255,0.2); border-color: #5934ff;}
+        .product-item:hover .product-btn svg { transform: translateX(3px); }
+        
+        .no-data { grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: #fff; border-radius: 12px; border: 1px dashed #e2e8f0; color: #94a3b8; font-size: 14px; }
+    </style>
+</head>
+<body class="text-gray-800 font-sans antialiased relative flex flex-col min-h-screen bg-[#f8fafc]">
+
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none mt-screen">
+        <div class="absolute top-[20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-300/20 mix-blend-multiply filter blur-[100px] animate-blob"></div>
+        <div class="absolute top-[40%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-purple-300/20 mix-blend-multiply filter blur-[100px] animate-blob animation-delay-2000"></div>
+    </div>
+
+    <nav class="sticky top-0 z-50 bg-white/60 backdrop-blur-md border-b border-white/50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center cursor-pointer">
+                    <img src="images/logo.svg" alt="DeekCloud Logo" class="w-auto object-contain" style="height: clamp(10px, 5vw, 20px);">
+                </div>
+                <div class="hidden md:flex space-x-8 h-full">
+                    <a href="index.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300">首页</a>
+                    <a href="api.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300">大模型API</a>
+                    <a href="products.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-primary text-sm font-medium text-primary transition-all duration-300">产品与方案</a>
+                    <a href="question.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300">常见问题</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-2 text-primary font-semibold">
+                    <svg fill="none" height="32" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg" style="flex: 0 0 auto; line-height: 1;"><title>Telegram</title><defs><linearGradient id="tgGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#37AEE2"></stop><stop offset="100%" stop-color="#1E96C8"></stop></linearGradient></defs><circle cx="12" cy="12" r="12" fill="url(#tgGradient)"></circle><path d="M5.49 11.66l11.77-4.54c.54-.21 1.04.14.86.88l-2.01 9.49c-.15.68-.56.85-1.13.53l-3.07-2.26-1.48 1.43c-.16.16-.3.3-.61.3l.22-3.13 5.71-5.16c.25-.22-.05-.35-.39-.13l-7.06 4.44-3.04-.95c-.66-.21-.67-.66.14-.97z" fill="white"></path></svg>
+                    <span>@deekcloud</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative w-full bg-gradient-to-br from-[#f0f9ff] via-[#e0f2fe] to-[#ecfeff] pt-20 pb-28 overflow-hidden z-10">
+        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-bl from-blue-200/40 to-transparent rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/4"></div>
+        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-green-200/30 to-transparent rounded-full blur-3xl -z-10 -translate-x-1/4 translate-y-1/4"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="z-10">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-tight mb-6">
+                        一站聚合全球云服务
+                    </h1>
+                    <p class="text-gray-600 text-base md:text-lg mb-8 flex items-center flex-wrap gap-2">
+                        <span>自助注册开通</span> <span class="text-gray-300">|</span> 
+                        <span>在线便捷充值</span> <span class="text-gray-300">|</span> 
+                        <span>专属折扣优惠</span> <span class="text-gray-300">|</span> 
+                        <span>多渠道支付</span>
+                    </p>                    
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="https://t.me/deekcloud" target="_blank" class="relative group flex flex-col items-center hover:-translate-y-1 transition-transform duration-300 mb-1">
+                            <button class="px-8 py-3 bg-[#5c6dff] text-white font-medium rounded-lg shadow-lg shadow-blue-500/30 hover:bg-blue-600 transition-colors">
+                                立即咨询
+                            </button>
+                        </a>
+                    </div>
+                    
+                </div>
+
+                <div class="relative h-[380px] hidden md:block">
+                    <div class="css-cloud absolute top-[55%] left-[30%] -translate-x-1/2 -translate-y-1/2 w-64 h-24 text-2xl z-30 animate-float bg-gradient-to-r from-[#4f46e5] to-[#3b82f6]" style="box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.5);">阿里云国际</div>
+                    <div class="css-cloud absolute top-[18%] left-[10%] w-36 h-16 text-lg z-20 animate-float bg-gradient-to-r from-indigo-500 to-blue-600">火山云</div>
+                    <div class="css-cloud absolute top-[70%] left-[5%] w-28 h-12 text-sm z-20 animate-float-delayed bg-gradient-to-r from-blue-400 to-blue-500">Aws</div>
+                    <div class="css-cloud absolute top-[12%] left-[50%] w-32 h-14 text-base z-10 animate-float-delayed bg-gradient-to-r from-indigo-400 to-purple-500">华为云</div>
+                    <div class="css-cloud absolute top-[8%] right-[5%] w-32 h-14 text-base z-10 animate-float-delayed bg-gradient-to-r from-blue-500 to-blue-600">Gcp</div>
+                    <div class="css-cloud absolute top-[38%] right-[20%] w-24 h-10 text-xs z-20 animate-float bg-gradient-to-r from-indigo-400 to-indigo-500">微软云</div>
+                    <div class="css-cloud absolute top-[65%] right-[0%] w-32 h-14 text-base z-20 animate-float bg-gradient-to-r from-blue-500 to-indigo-500">腾讯云</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 z-40 mb-10">
+        <div class="w-full flex flex-col lg:flex-row justify-center gap-6">
+            <div class="w-full lg:w-[770px] flex-shrink-0 rounded-2xl p-6 lg:px-10 lg:py-8 shadow-[0_8px_30px_rgb(0,0,0,0.05)] border border-white/80 flex flex-col justify-center transition-transform hover:-translate-y-1 duration-300 backdrop-blur-md" 
+                 style="background: linear-gradient(90deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.12) 65%, rgba(59, 130, 246, 0.05) 75%, rgba(203, 213, 225, 0.4) 100%);">
+                <h3 class="flex items-baseline mb-3">
+                    <span class="text-[56px] leading-none font-black italic text-transparent bg-clip-text bg-gradient-to-b from-[#3b82f6] to-[#1d4ed8] mr-3 tracking-tighter">5</span>
+                    <span class="text-3xl md:text-[32px] font-extrabold text-[#0f172a] tracking-tight">大云服务专属折扣</span>
+                </h3>
+                <p class="text-[14px] text-[#334155] font-semibold tracking-wide">阿里云国际版 · 腾讯云国际版 · 华为云国际版 · AWS · Google</p>
+            </div>
+            
+            <div class="w-full lg:w-[460px] flex-shrink-0 bg-gradient-to-r from-[#3b82f6] to-[#2563eb] rounded-2xl p-6 lg:px-8 lg:py-8 shadow-[0_8px_30px_rgba(59,130,246,0.3)] border border-blue-400/50 flex items-center justify-between text-white relative overflow-hidden transition-transform hover:-translate-y-1 duration-300">
+                <div class="absolute right-0 bottom-0 opacity-20 w-32 h-32 translate-x-1/4 translate-y-1/4 pointer-events-none">
+                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.64-2.25 1.64-1.74 0-2.1-.96-2.15-1.92H8.04c.06 1.69 1.14 2.87 2.86 3.24V19h2.1v-1.63c1.62-.31 2.83-1.42 2.83-3.05 0-2.28-1.78-3.02-3.52-3.46z"></path></svg>
+                </div>
+                <div class="relative z-10 w-full flex flex-col justify-center items-start">
+                    <h3 class="text-xl lg:text-[22px] font-bold mb-5 tracking-wide text-white">云成本管控专家</h3>
+                    <button class="bg-white text-[#3b82f6] text-xs lg:text-sm font-bold px-6 py-2.5 rounded-full hover:bg-gray-50 hover:shadow-lg transition-all">
+                        获取免费成本评估
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="flex-grow relative z-10">
+        
+        <div class="product-list">
+            <div class="content">
+                <div class="title">一站式多元云服务矩阵，专属折扣畅享无忧</div>
+                
+                <div class="platform-tabs" id="platform-tabs">
+                    </div>
+                
+                <div class="platform-intro">
+                    <div class="intro-content">
+                        <div class="intro-text" id="intro-text"></div>
+                        <div class="intro-discount hidden" id="intro-discount" style="display: none;"></div>
+                        <a href="#" target="_blank" class="intro-link" id="intro-link">
+                            查看全部产品 
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="product-box">
+                    <div class="left" id="left-categories">
+                        </div>
+                    
+                    <div class="right">
+                        <div class="product-grid" id="right-grid">
+                            </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-20 relative">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">购买&开通流程</h2>
+            
+            <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-sm border border-gray-100 p-2 mb-10">
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+                    <div class="p-6 hover:bg-gray-50/50 transition-colors">
+                        <h4 class="text-primary text-sm font-bold mb-1">Step1</h4>
+                        <h3 class="text-lg font-bold text-gray-800 mb-3">在线咨询</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">通过在线渠道与业务经理联系</p>
+                    </div>
+                    <div class="p-6 hover:bg-gray-50/50 transition-colors">
+                        <h4 class="text-primary text-sm font-bold mb-1">Step2</h4>
+                        <h3 class="text-lg font-bold text-gray-800 mb-3">沟通需求</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">与我们讨论您的具体需求与预算，享受专属折扣优惠</p>
+                    </div>
+                    <div class="p-6 hover:bg-gray-50/50 transition-colors">
+                        <h4 class="text-primary text-sm font-bold mb-1">Step3</h4>
+                        <h3 class="text-lg font-bold text-gray-800 mb-3">获取账号</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">协助您快速注册DeekCloud平台，获取您所选云服务提供商的账号</p>
+                    </div>
+                    <div class="p-6 hover:bg-gray-50/50 transition-colors">
+                        <h4 class="text-primary text-sm font-bold mb-1">Step4</h4>
+                        <h3 class="text-lg font-bold text-gray-800 mb-3">预付款项</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">根据您的月度预估消费金额，完成预付款。支持多种支付方式，安全便捷</p>
+                    </div>
+                    <div class="p-6 hover:bg-gray-50/50 transition-colors">
+                        <h4 class="text-primary text-sm font-bold mb-1">Step5</h4>
+                        <h3 class="text-lg font-bold text-gray-800 mb-3">选购服务</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">指导您在云官网选择合适的云产品和服务，确保满足您的需求</p>
+                    </div>
+                    <div class="p-6 hover:bg-gray-50/50 transition-colors">
+                        <h4 class="text-primary text-sm font-bold mb-1">Step6</h4>
+                        <h3 class="text-lg font-bold text-gray-800 mb-3">账单核对</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">每月 6 号平台自动出具月账单，并完成开票</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-dark/95 backdrop-blur-sm pt-16 pb-8 border-t border-gray-800 mt-auto relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div>
+                    <span class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 tracking-tight inline-block mb-4">DeekCloud</span>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6 border-l-2 border-gray-700 pl-4">DeekCloud 致力于为您提供一站式多云代理服务。我们通过整合全球优质云资源，助力企业降本增效，轻松构建云上业务。</p>
+                </div>
+                <div>
+                    <h3 class="text-white text-lg font-bold mb-6 relative inline-block">快速导航<span class="absolute bottom-0 left-0 w-8 h-0.5 bg-primary rounded"></span></h3>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>首页</a></li>
+                        <li><a href="api.html" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>大模型API</a></li>
+                        <li><a href="products.html" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>产品与方案</a></li>
+                        <li><a href="question.html" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>常见问题</a></li>                
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white text-lg font-bold mb-6 relative inline-block">支持的云平台<span class="absolute bottom-0 left-0 w-8 h-0.5 bg-primary rounded"></span></h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-gray-400 text-sm"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-3 animate-pulse"></span> 阿里云国际</li>
+                        <li class="flex items-center text-gray-400 text-sm"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-3 animate-pulse"></span> 腾讯云国际</li>
+                        <li class="flex items-center text-gray-400 text-sm"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-3 animate-pulse"></span> 亚马逊云 (AWS)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                <p>&copy; 2026 DeekCloud. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center space-y-4 hidden md:flex">
+        
+        <a href="https://t.me/deekcloud" target="_blank" class="relative group flex flex-col items-center hover:-translate-y-1 transition-transform duration-300 mb-1">
+            <div class="w-[52px] h-[52px] bg-white rounded-full shadow-[0_0_0_4px_white,0_4px_12px_rgba(55,174,226,0.3)] flex items-center justify-center relative z-10">
+                <svg class="w-[48px] h-[48px]" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="tgSidebarGrad" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#37AEE2"></stop>
+                            <stop offset="100%" stop-color="#1E96C8"></stop>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="12" cy="12" r="12" fill="url(#tgSidebarGrad)"></circle>
+                    <path d="M5.49 11.66l11.77-4.54c.54-.21 1.04.14.86.88l-2.01 9.49c-.15.68-.56.85-1.13.53l-3.07-2.26-1.48 1.43c-.16.16-.3.3-.61.3l.22-3.13 5.71-5.16c.25-.22-.05-.35-.39-.13l-7.06 4.44-3.04-.95c-.66-.21-.67-.66.14-.97z" fill="white"></path>
+                </svg>
+            </div>
+            <div class="absolute -bottom-2.5 bg-[#1E96C8] text-white text-[11px] font-bold px-2.5 py-0.5 rounded shadow-sm z-20 whitespace-nowrap">
+                联系客服
+            </div>
+        </a>
+
+        <div class="bg-[#F8FAFC]/95 backdrop-blur-md rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.06)] py-6 px-3 flex flex-col items-center space-y-6 border border-white">
+            
+            <a href="https://t.me/deekcloud" target="_blank" class="flex flex-col items-center group">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-[#25D366]/10 transition-colors duration-300">
+                    <svg class="w-[20px] h-[20px] text-[#25D366] group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 0C5.412 0 .046 5.365.046 11.986c0 2.115.552 4.167 1.6 5.986L.046 24l6.177-1.62c1.761.947 3.737 1.446 5.808 1.446 6.619 0 11.985-5.365 11.985-11.986S18.65 0 12.031 0zm.006 21.841c-1.789 0-3.538-.481-5.074-1.393l-.364-.216-3.77.989.998-3.676-.237-.377a9.985 9.985 0 0 1-1.528-5.334c0-5.523 4.494-10.017 10.017-10.017s10.016 4.494 10.016 10.017c0 5.522-4.493 10.017-10.016 10.017zm5.5-7.514c-.302-.151-1.787-.882-2.064-.984-.277-.101-.479-.151-.68.151-.202.302-.782.984-.959 1.185-.176.202-.353.227-.655.076-.302-.151-1.275-.47-2.428-1.503-.898-.806-1.504-1.801-1.68-2.103-.176-.302-.019-.465.132-.616.136-.136.302-.353.453-.529.151-.176.202-.302.302-.504.101-.202.05-.378-.025-.529-.076-.151-.68-1.638-.933-2.243-.245-.59-.496-.51-.68-.52-.176-.01-.378-.01-.579-.01-.202 0-.529.076-.806.378-.277.302-1.058 1.033-1.058 2.52s1.083 2.922 1.234 3.123c.151.202 2.13 3.25 5.158 4.556 2.051.884 2.763.958 3.518.882.85-.086 2.064-.844 2.355-1.659.29-.815.29-1.514.202-1.659-.088-.146-.315-.222-.617-.373z"/></svg>
+                </div>
+                <span class="text-[11px] text-gray-600 mt-0.5">WhatsApp</span>
+            </a>
+
+            <a href="https://t.me/deekcloud" target="_blank" class="flex flex-col items-center group">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-gray-200 transition-colors duration-300">
+                    <svg class="w-[16px] h-[16px] text-gray-900 group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </div>
+                <span class="text-[11px] text-gray-600 mt-0.5">X</span>
+            </a>
+
+            <a href="https://t.me/deekcloud" target="_blank" class="flex flex-col items-center group">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-[#0084FF]/10 transition-colors duration-300">
+                    <svg class="w-[20px] h-[20px] text-[#0084FF] group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.053 0 11.289c0 3.551 1.71 6.726 4.382 8.868v3.843l4.004-2.203c1.166.326 2.396.5 3.614.5 6.627 0 12-5.053 12-11.289S18.627 0 12 0zm1.096 15.088l-2.822-3.007-5.503 3.007 6.052-6.425 2.89 3.007 5.435-3.007-6.052 6.425z"/></svg>
+                </div>
+                <span class="text-[11px] text-gray-600 mt-0.5">Messenger</span>
+            </a>
+
+            <a href="https://t.me/deekcloud" target="_blank" class="flex flex-col items-center group">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-[#5865F2]/10 transition-colors duration-300">
+                    <svg class="w-[20px] h-[20px] text-[#5865F2] group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg>
+                </div>
+                <span class="text-[11px] text-gray-600 mt-0.5">Discord</span>
+            </a>
+
+            <a href="https://t.me/deekcloud" target="_blank" class="flex flex-col items-center group">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-[#00AFF0]/10 transition-colors duration-300">
+                    <svg class="w-[20px] h-[20px] text-[#00AFF0] group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24" fill-rule="evenodd" clip-rule="evenodd">
+                        <path d="M12.002 0c-1.303 0-2.529.256-3.648.742C7.295.277 6.183 0 4.992 0 2.238 0 0 2.238 0 4.992c0 1.19.277 2.302.742 3.36C.256 9.471 0 10.697 0 12.002c0 6.627 5.375 12.002 12.002 12.002 1.303 0 2.529-.256 3.648-.742 1.058.465 2.17.742 3.36.742 2.754 0 4.992-2.238 4.992-4.992 0-1.19-.277-2.302-.742-3.36.486-1.119.742-2.345.742-3.648C24.004 5.375 18.629 0 12.002 0zm0 5.48c1.353 0 2.551.34 3.593 1.02.774.524 1.077 1.446.732 2.279-.277.674-1.033 1.047-1.734.808-.415-.145-.733-.36-1.016-.547-.84-.55-1.758-.8-2.673-.8-1.594 0-2.731.812-2.731 1.932 0 1.022.68 1.516 2.356 1.968l1.393.385c2.613.727 4.144 1.889 4.144 3.996 0 2.65-2.279 4.604-5.59 4.604-1.725 0-3.355-.45-4.664-1.352-.777-.525-1.082-1.464-.73-2.302.268-.65 1.02-.994 1.697-.783.393.125.706.326.98.514.981.685 2.128.989 3.197.989 1.77 0 2.924-.763 2.924-1.956 0-1.023-.681-1.523-2.357-1.974l-1.394-.386c-2.61-.722-4.142-1.884-4.142-3.99 0-2.645 2.28-4.596 5.59-4.596z"/>
+                    </svg>
+                </div>
+                <span class="text-[11px] text-gray-600 mt-0.5">Skype</span>
+            </a>
+        </div>
+
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-11 h-11 bg-white/95 backdrop-blur-md rounded-full shadow-[0_4px_15px_rgb(0,0,0,0.06)] border border-gray-100 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-all duration-300 hover:-translate-y-1 mt-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" /></svg>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const cloudMeta = {
+                "阿里云": "阿里云，国内领先的云服务平台，赋能互联网、电商与企业数字化转型",
+                "腾讯云": "腾讯云，为您提供安全、稳定、高性能的公有云服务及丰富的行业解决方案",
+                "华为云": "华为云，提供稳定可靠、安全可信、可持续发展的云服务",
+                "谷歌云": "Google Cloud，提供全球一流的大数据、AI及容器编排技术",
+                "亚马逊云": "亚马逊云科技（AWS），全球覆盖广泛的云服务平台，推动业务向全球拓展"
+            };
+
+            // 配置各厂商的全部产品链接
+            const cloudLinks = {
+                "阿里云": "https://www.alibabacloud.com/zh/product?_p_lc=1",
+                "腾讯云": "https://www.tencentcloud.com/product",
+                "亚马逊云": "https://aws.amazon.com/cn/products/?nc2=h_prod",
+                "谷歌云": "https://cloud.google.com/products?hl=zh_cn#featured-products",
+                "华为云": "https://www.huaweicloud.com/intl/zh-cn/product/"
+            };
+
+            // 配置折扣文案
+            const discountConfig = {
+                "阿里云": {
+                    "default": "7折起，量大从优",
+                    "CDN与边缘": "6折起，量大从优",
+                    "视频云": "5折起，量大从优"
+                },
+                "腾讯云": {
+                    "default": "7折起，量大从优",
+                    "CDN与边缘": "大客户专享：3000U/PB"
+                },
+                "亚马逊云": {
+                    "default": "8折起，量大从优",
+                    "CDN与边缘": "大客户专享2800U/PB"
+                },
+                "谷歌云": {
+                    "default": "8折起，量大从优",
+                    "CDN与边缘": "大客户专享2900U/PB"
+                },
+                "华为云": {
+                    // 若无说明，预留默认空
+                    "default": ""
+                }
+            };
+
+            // 全量产品数据
+            const productData = {
+                "阿里云": {
+                    "产品推荐": [
+                        { name: "云服务器ECS", desc: "安全可靠、弹性可伸缩的云计算服务", tags: ["弹性计算", "安全可靠", "金融级隔离"] },
+                        { name: "通义大模型", desc: "多元化、高性能、安全可靠的大模型服务", tags: ["多性能模型", "垂直领域适配", "API即服务"] },
+                        { name: "大模型服务平台百炼", desc: "大模型推理、训练以及应用构建服务", tags: ["模型训练", "推理应用"] },
+                        { name: "容器服务 Kubernetes 版 ACK", desc: "提供一站式管理容器应用的 K8s 服务", tags: ["混合云调度", "微服务治理"] },
+                        { name: "轻量应用服务器", desc: "快速构建应用程序和网站", tags: ["分钟级建站", "开发测试云", "免运维托管"] },
+                        { name: "对象存储 OSS", desc: "稳定、安全、高性价比、高性能的云存储服务", tags: ["冷热分层", "合规存储", "跨境加速"] },
+                        { name: "云数据库 RDS", desc: "全托管，含MySQL、PostgreSQL、SQL Server、MariaDB多引擎", tags: ["主从秒切", "读写分离"] },
+                        { name: "数字证书管理服务", desc: "实现全站 HTTPS，呈现可信的 Web 访问", tags: ["自动化部署", "全站加密"] },
+                        { name: "人工智能平台PAI", desc: "一站式AI开发、训练和推理服务", tags: ["分布式训练", "AutoML", "模型市场"] },
+                        { name: "云原生数据库 PolarDB", desc: "100%兼容MySQL、PostgreSQL，兼容Oracle，支持集中和分布式", tags: ["Oracle兼容", "HTAP混合负载", "存算分离"] },
+                        { name: "大数据开发治理平台 DataWorks", desc: "一站式智能数据开发治理平台", tags: ["敏感数据治理", "离线实时"] },
+                        { name: "云原生大数据计算服务 MaxCompute", desc: "面向分析的企业级SaaS模式云数据仓库", tags: ["PB级计算"] }
+                    ],
+                    "计算与网络": [
+                        { name: "云服务器 ECS", desc: "安全可靠、弹性可伸缩的云计算服务", tags: ["弹性计算", "安全可靠", "金融级隔离"] },
+                        { name: "轻量应用服务器", desc: "快速构建应用程序和网站", tags: ["分钟级建站", "开发测试云", "免运维托管"] },
+                        { name: "函数计算 FC", desc: "事件驱动的Serverless计算服务", tags: ["毫秒计费", "事件触发", "无感扩缩容"] },
+                        { name: "GPU 云服务器", desc: "基于异构加速的图形、HPC与AI计算服务", tags: ["AI训练加速", "超算实例"] },
+                        { name: "无影", desc: "云端一体、安全高效的一站式云上办公空间", tags: ["云桌面协同", "企业级沙箱"] },
+                        { name: "弹性裸金属服务器", desc: "可弹性伸缩的高性能计算服务，安全物理隔离", tags: ["硬件独享", "超分复用", "物理隔离"] },
+                        { name: "Serverless 应用引擎 SAE", desc: "全托管、免运维、高弹性的云原生应用PaaS平台", tags: ["零代码改造", "自动弹性"] },
+                        { name: "边缘节点服务 ENS", desc: "场景化、广覆盖、易接入的边缘云计算服务", tags: ["低时延分发", "下沉算力", "IoT联动"] },
+                        { name: "智算服务 PAI-灵骏", desc: "面向大规模深度学习及融合智算场景的PaaS平台产品", tags: ["千卡并行", "模型量化"] },
+                        { name: "负载均衡 SLB", desc: "对云上流量进行按需分发的服务", tags: ["DDoS联动"] },
+                        { name: "全球加速 GA", desc: "覆盖全球的网络加速服务", tags: [] },
+                        { name: "转发路由器 TR", desc: "弹性、灵活的云上大规模组网核心路由器", tags: ["VPC级联", "组播支持"] }
+                    ],
+                    "存储与数据库": [
+                        { name: "对象存储 OSS", desc: "稳定、安全、高性价比、高性能的云存储服务", tags: ["冷热分层智能存储", "跨区域容灾"] },
+                        { name: "块存储 EBS", desc: "为云服务器提供的高性能、高可靠的块级存储", tags: ["高性能", "低时延", "自动容量扩展"] },
+                        { name: "文件存储 NAS", desc: "大规模共享访问，弹性扩展的文件存储服务", tags: ["混合云挂载", "多协议接入"] },
+                        { name: "表格存储 Tablestore", desc: "为海量结构化数据提供低成本的 Serverless 表存储服务", tags: ["自动分片", "毫级响应", "PB级单表"] },
+                        { name: "云备份 Cloud Backup", desc: "阿里云统一灾备平台，保护客户本地机房和云上数据", tags: ["跨云灾备", "勒索防护", "秒级RTO"] },
+                        { name: "网盘与相册服务 PDS", desc: "轻松打造您的企业存储空间", tags: ["协同管理", "智能分类", "审计溯源"] },
+                        { name: "云原生数据库 PolarDB", desc: "100%兼容MySQL、PostgreSQL，兼容Oracle，支持集中和分布式", tags: ["一写多读", "秒级扩缩"] },
+                        { name: "云数据库 RDS", desc: "全托管，含MySQL、PostgreSQL、SQL Server、MariaDB多引擎", tags: ["自动性能调优", "多版本管控"] },
+                        { name: "云原生数据仓库 AnalyticDB", desc: "实时离在线分析，敏捷隔离、灵活弹性，兼容MySQL、PostgreSQL", tags: [] },
+                        { name: "云原生多模数据库 Lindorm", desc: "HBase宽表、时序、向量和时空等数据，提供搜索和分析", tags: ["向量检索", "多模融合"] },
+                        { name: "云数据库 Tair（兼容 Redis）", desc: "兼容Redis®的缓存和KV数据库", tags: ["持久化Redis"] },
+                        { name: "云数据库 MongoDB 版", desc: "官方正版合作，流行的文档型数据库", tags: ["分片托管", "动态扩容"] },
+                        { name: "数据管理 DMS", desc: "一站式Data+AI管理，支持全链路开发、安全合规（含数据备份)和Copilot提效", tags: ["一站式智能"] },
+                        { name: "数据传输服务 DTS", desc: "数据库迁移上云、实时数据集成、容灾多活等", tags: ["增量数据同步", "结构迁移校验"] },
+                        { name: "数据库自治服务 DAS", desc: "智能运维，保障数据库稳定、安全、优化", tags: ["索引推荐"] }
+                    ],
+                    "容器与中间件": [
+                        { name: "容器服务 Kubernetes 版 ACK", desc: "提供一站式管理容器应用的 K8s 服务", tags: ["全托管K8s", "多集群管理"] },
+                        { name: "容器计算服务 ACS", desc: "以 Kubernetes 为使用界面供给容器算力资源的云计算服务", tags: ["容器化算力", "按需供给"] },
+                        { name: "弹性容器实例 ECI", desc: "Serverless 和容器化的弹性计算服务", tags: ["秒级弹性", "低成本冷启", "无服务器化"] },
+                        { name: "容器镜像服务 ACR", desc: "容器镜像的安全托管及高效分发平台", tags: ["镜像加速", "漏洞扫描", "全球同步"] },
+                        { name: "分布式云容器平台 ACK One", desc: "面向混合云、多集群、分布式计算的容器平台", tags: ["混合云管理", "跨区调度"] },
+                        { name: "微服务引擎 MSE", desc: "开源微服务框架和多语言的一站式微服务平台，让应用获得企业级运行保障", tags: ["多协议治理"] },
+                        { name: "企业级分布式应用服务 EDAS", desc: "公共云/混合云同构的应用托管平台，提供应用开发、部署、监控、运维全栈能力", tags: ["全栈托管", "多云同构", "零代码迁移"] },
+                        { name: "应用高可用服务 AHAS", desc: "通过多活容灾提高应用高可用能力", tags: ["流量防护", "异地多活"] }
+                    ],
+                    "人工智能与机器学习": [
+                        { name: "人工智能平台 PAI", desc: "一站式AI开发、训练和推理服务", tags: ["分布式训练", "可视化建模"] },
+                        { name: "大模型服务平台百炼", desc: "大模型推理、训练以及应用构建服务", tags: ["千卡并行"] },
+                        { name: "智能开放搜索 OpenSearch", desc: "内置大语言模型、智能语义理解、排序算法等能力的一站式智能搜索服务", tags: ["语义向量", "多模态搜索"] },
+                        { name: "模型在线服务 PAI-EAS", desc: "支持用户将模型一键部署为在线推理服务或AI-Web应用", tags: ["秒级扩缩", "流量调度", "多框架兼容"] },
+                        { name: "智能编码助手通义灵码", desc: "基于通义大模型，支持代码智能生成、研发智能问答", tags: ["代码补全", "缺陷检测"] },
+                        { name: "自然语言处理 NLP", desc: "提供文本理解、分析和挖掘能力", tags: ["文本分析"] },
+                        { name: "智能语音交互", desc: "包含语音识别、语音合成、语音分析等能力", tags: ["声纹识别", "实时转写", "语音克隆"] },
+                        { name: "智能对话机器人", desc: "阿里巴巴自研的新一代智能人机对话系统", tags: ["多轮会话", "智能驱动"] },
+                        { name: "视觉智能开放平台", desc: "提供具备实战价值的一站式视觉 AI 服务", tags: ["OCR识别", "图像分割", "视频分析"] }
+                    ],
+                    "CDN与边缘": [
+                        { name: "CDN", desc: "弹性内容分发服务加快向终端分发内容", tags: ["视频加速", "毫秒缓存"] },
+                        { name: "边缘安全加速 ESA", desc: "加速和保护所有互联网流量(原全站加速DCDN)", tags: ["全站防护", "精准清洗"] },
+                        { name: "边缘网络加速 ENA", desc: "提供企业内部分支机构之间的加速连接", tags: ["混合云组网", "专线级QoS"] }
+                    ],
+                    "大数据": [
+                        { name: "云原生大数据计算服务 MaxCompute", desc: "一款Serverless、多功能、低成本、高性能、开放的、易于使用的数据仓库平台和服务", tags: ["企业级数仓", "存算分离"] },
+                        { name: "实时数仓 Hologres", desc: "一体化实时湖仓平台", tags: ["实时湖仓", "毫秒分析"] },
+                        { name: "实时计算 Flink版", desc: "基于Apache Flink构建的一站式实时大数据计算平台，提供端到端亚秒级实时数据分析", tags: ["亚秒响应"] },
+                        { name: "检索分析服务 Elasticsearch 版", desc: "100%兼容开源", tags: ["日志检索", "PB存储"] },
+                        { name: "向量检索服务 Milvus版", desc: "100%兼容开源Milvus", tags: ["AI向量检", "低延迟查"] },
+                        { name: "图计算服务 GraphCompute", desc: "新一代一站式图数据管理和分析平台", tags: ["关系挖掘", "多跳查询"] },
+                        { name: "开源大数据平台 E-MapReduce", desc: "支持Apache大数据生态的托管云服务,帮助快速构建具备弹性扩展能力的企业级大数据处理和分析平台", tags: ["全托管", "弹性Hadoop"] },
+                        { name: "数据湖构建 Data Lake Formation", desc: "云原生数据湖架构核心组成部分，帮助用户快速地构建云原生数据湖架构", tags: ["统一元数据", "湖仓加速"] }
+                    ],
+                    "视频云": [
+                        { name: "视频直播", desc: "提供直播采集、传输、处理、分发、播放的底层PaaS服务", tags: ["全链路Paas", "SDK嵌入"] },
+                        { name: "超低延时直播", desc: "一款超低延时、高并发、低卡顿的视频直播产品", tags: ["毫秒级推流"] },
+                        { name: "实时音视频", desc: "提供高可用、高品质、超低延时的音视频通信服务", tags: ["端云协同", "WebRTC增强"] },
+                        { name: "视频点播", desc: "一站式音视频点播解决方案", tags: ["DRM加密", "冷热分离"] },
+                        { name: "云导播台", desc: "融合图文包装、实时抠像等能力，对传统导播服务的云端创新", tags: ["虚拟制作", "AI抠图"] }
+                    ],
+                    "安全": [
+                        { name: "DDoS 防护", desc: "提供可管理的 DDoS 防护服务，自动快速的缓解网络攻击对业务造成的影响", tags: ["智能调度", "秒级拦截"] },
+                        { name: "Web应用防火墙 WAF", desc: "对网站或者APP的业务流量进行恶意特征识别及防护", tags: ["防黑客入侵", "防爬虫攻击"] },
+                        { name: "云防火墙", desc: "可针对云上网络资产的互联网边界、VPC边界及主机边界实现三位一体的统一安全隔离管控", tags: ["云上安全隔离", "威胁可视化"] },
+                        { name: "云安全中心", desc: "集持续监测、深度防御、全面分析、快速响应能力于一体", tags: ["多维检测"] },
+                        { name: "办公安全平台 SASE", desc: "为企业分支机构/门店、远程移动办公场景的访问互联网及云上服务流量提供就近接入的安全防护能力", tags: ["远程办公保护", "智能安全接入"] },
+                        { name: "漏洞管理", desc: "支持对常见五种漏洞类型进行扫描，并支持 CVE 系统漏洞的一键修复", tags: ["SBOM扫描", "一键漏洞扫描"] },
+                        { name: "云安全态势管理", desc: "为多云环境下的云产品提供持续、自动化的配置风险检查及治理能力", tags: ["自动化治理", "一键安全加固"] },
+                        { name: "云统一威胁管理", desc: "阿里云原生威胁分析与响应平台", tags: ["UEBA分析", "自动应急响应"] },
+                        { name: "数字证书管理服务（原SSL证书）", desc: "为网站和移动应用（APP）及小程序提供数据 HTTPS 加密协议访问", tags: ["网站HTTPS加密"] },
+                        { name: "加密服务", desc: "基于硬件加密机提供云上数据加解密服务", tags: ["数据安全存储", "金融级加密"] },
+                        { name: "密钥管理服务", desc: "一站式密钥管理和数据加密服务平台、一站式凭据安全管理平台", tags: ["密钥全生命周期", "数据自主加密"] }
+                    ],
+                    "企业服务与云通信": [
+                        { name: "专属钉钉", desc: "让每个企业都拥有自己的专属钉钉", tags: ["定制工作台", "混合部署"] },
+                        { name: "Teambition 企业协同", desc: "包含项目、待办、网盘、文档、日历等丰富应用", tags: ["敏捷协作", "项目全周期管理"] },
+                        { name: "Chat App 消息服务", desc: "为全球企业打造的一款高效触达用户的消息引擎", tags: ["全球可达"] },
+                        { name: "短信服务", desc: "快速触达手机用户所优选使用的通信能力，广受出海企业选用", tags: ["全球覆盖", "高并发送达"] },
+                        { name: "语音服务", desc: "稳定可靠、安全可信的云通信服务", tags: ["高稳定性", "智能IVR"] },
+                        { name: "号码隐私保护", desc: "基于运营商通信网络能力，企业客户可以通过集成号码隐私保护能力", tags: ["虚拟小号", "通话加密"] },
+                        { name: "场景金融链接器", desc: "面向消费者、企业的金融链接数智科技服务", tags: ["开放API", "智能风控"] },
+                        { name: "云行情", desc: "基于行情中心服务提供一站式云行情产品服务", tags: ["实时数据", "多市场对接"] },
+                        { name: "营销引擎", desc: "以大模型为底座，深度适配业务场景的泛行业营销引擎", tags: ["AI生成", "精准投放"] },
+                        { name: "企业商城 LinkedMall", desc: "为企业快速搭建积分、福利或品牌电商商城，提供用户运营、企业内购和渠道分销等解决方案", tags: ["快速建站", "积分生态"] },
+                        { name: "移动研发平台 EMAS", desc: "一站式的应用研发管理服务，涵盖开发、测试、运维等应用全生命周期", tags: ["DevOps一体", "热修复"] },
+                        { name: "多端低代码开发平台魔笔", desc: "面向全端（Web、H5、全平台小程序、App）场景，模型驱动的低代码开发平台", tags: ["可视化搭建", "跨端发布"] },
+                        { name: "云原生应用组装平台 BizWorks", desc: "提供客户业务中台建模设计、开发运维、运营治理的端到端能力", tags: ["业务建模", "中台治理"] },
+                        { name: "机器人流程自动化 RPA", desc: "通过模拟人的界面操作，自动完成跨系统、跨平台重复有规律的工作流任务", tags: ["跨系统联动", "流程自动化"] },
+                        { name: "云渲染", desc: "面向云游戏、元宇宙等场景的高性价比图形计算服务", tags: ["GPU集群", "毫秒级延迟"] },
+                        { name: "智能客服", desc: "提供云呼叫中心、对话机器人、客服工作台、智能外呼、智能对话分析等产品", tags: ["语义理解", "多轮对话"] },
+                        { name: "Salesforce on Alibaba Cloud", desc: "让企业的营销、销售、商务、服务、和 IT 团队从任何地方协同工作", tags: ["本地化部署", "CRM集成"] },
+                        { name: "信息查询服务", desc: "提供大模型友好的的海量丰富信息和业务链接能力", tags: ["知识图谱", "API融合"] }
+                    ]
+                },
+                "腾讯云": {
+                    "产品推荐": [
+                        { name: "腾讯云 EdgeOne", desc: "基于腾讯全球边缘节点，面向全球市场提供 4/7 层安全防护和加速服务", tags: ["全球防护", "低延迟加速"] },
+                        { name: "云主机", desc: "安全、稳定、高度灵活的计算服务", tags: ["弹性伸缩", "企业级SLA", "高性能计算"] },
+                        { name: "Elasticsearch 服务", desc: "基于云的即用型 Elasticsearch 服务", tags: ["全文检索", "日志分析", "运维可视化"] },
+                        { name: "腾讯云轻量服务器", desc: "面向中小企业和开发人员的新一代云服务器服务", tags: ["快速部署", "开发测试", "轻量化架构"] },
+                        { name: "云对象存储", desc: "高度可用、可靠且可扩展的对象存储服务", tags: ["海量存储", "多媒体托管", "跨地域冗余"] },
+                        { name: "云块存储", desc: "可靠、可扩展且持久的块存储服务", tags: ["持久化存储", "数据库优化"] },
+                        { name: "云原生数据库 TDSQL-C", desc: "完全兼容 MySQL 和 PostgreSQL 的高性能云原生数据库", tags: ["HTAP架构", "金融级高可用", "自动扩缩容"] },
+                        { name: "内容分发网络", desc: "快速、稳定、智能、安全的内容分发服务", tags: ["智能调度", "带宽优化", "动静态加速"] }
+                    ],
+                    "计算与网络": [
+                        { name: "云主机", desc: "安全、稳定、高度灵活的计算服务", tags: ["弹性伸缩", "企业级SLA", "高性能计算"] },
+                        { name: "腾讯云轻量服务器", desc: "面向中小企业和开发人员的新一代云服务器服务", tags: ["快速部署", "开发测试", "轻量化架构"] },
+                        { name: "云 GPU 服务", desc: "具有图形处理能力的高密度计算服务器", tags: ["AI训练", "图形渲染", "CUDA加速"] },
+                        { name: "云服务器专属主机", desc: "具有独享资源的物理隔离计算服务", tags: ["物理隔离", "资源预留", "安全合规"] },
+                        { name: "云裸机", desc: "使用独占和非虚拟化裸机服务器更灵活地设置服务", tags: ["高性能计算", "定制OS"] },
+                        { name: "批量计算", desc: "高效且具有成本效益的计算资源管理策略", tags: ["作业调度", "成本优化"] },
+                        { name: "超计算集群", desc: "提供高带宽和极低延迟的网络服务", tags: ["微秒延迟", "HPC场景"] },
+                        { name: "边缘区域", desc: "低延迟、广覆盖、低成本的边缘云计算服务", tags: ["本地化计算", "IoT边缘", "低延时"] },
+                        { name: "云负载均衡器", desc: "安全、稳定、弹性可扩展的流量分发服务", tags: ["流量分发", "弹性IP"] },
+                        { name: "虚拟私有云", desc: "腾讯云中隔离且安全的虚拟专用网络", tags: ["网络隔离", "自定义拓扑"] },
+                        { name: "弹性网络接口", desc: "云服务器多网卡热插拔服务", tags: ["精细流控", "多网卡绑定"] },
+                        { name: "Anycast Internet 加速", desc: "优化 Internet 访问的 IP Anycast 服务", tags: ["全球路由", "跨国企业", "访问优化"] }
+                    ],
+                    "存储与数据库": [
+                        { name: "云日志服务", desc: "用于日志收集、搜索和分析的一站式日志记录解决方案", tags: ["实时检索", "日志审计", "多源采集"] },
+                        { name: "云无限", desc: "高效智能的图像识别与处理服务", tags: ["鉴黄识别", "OCR提取", "水印防护"] },
+                        { name: "云对象存储", desc: "高度可用、可靠且可扩展的对象存储服务", tags: ["跨AZ冗余", "生命周期管理", "CDN联动"] },
+                        { name: "云文件存储", desc: "安全且可扩展的文件共享和存储解决方案", tags: ["EB级扩展", "智能分层"] },
+                        { name: "云块存储", desc: "可靠、可扩展且持久的块存储服务", tags: ["百万IOPS", "金融可靠"] },
+                        { name: "云数据库 MySQL 版", desc: "高性能、可靠且灵活的数据库托管服务", tags: ["在线热备", "读写分离", "金融合规"] },
+                        { name: "云数据库 MariaDB 版", desc: "社区驱动的开源数据库", tags: ["兼容MySQL", "多存储引擎"] },
+                        { name: "云数据库 SQL Server 版", desc: "云中真正获得许可的 SQL Server 数据库", tags: ["企业级", "集成开发环境", "兼容性"] },
+                        { name: "云数据库 PostgreSQL", desc: "支持地理空间数据处理的开源数据库", tags: ["GIS支持", "JSON处理", "空间分析"] },
+                        { name: "云原生数据库 TDSQL-C", desc: "完全兼容 MySQL 和 PostgreSQL 的高性能云原生数据库", tags: ["HTAP融合", "零分片扩容"] },
+                        { name: "云数据库 Redis® 版", desc: "高性能、低延迟且可扩展的 Redis 数据库", tags: ["持久化内存", "读写分离", "百万QPS"] },
+                        { name: "云数据库 MongoDB", desc: "高性能分布式 MongoDB 数据库", tags: ["分片集群", "变更流", "文档级锁"] },
+                        { name: "云数据库 CTSDB 版", desc: "云中功能强大、分布式且可扩展的时间序列数据库", tags: ["时序压缩", "降采样查询", "PromQL兼容"] },
+                        { name: "TDSQL MySQL 版", desc: "具有自动分片功能的高性能数据库", tags: ["分布式事务", "单元化部署", "自动分片"] }
+                    ],
+                    "容器与中间件": [
+                        { name: "腾讯 Kubernetes 引擎", desc: "可扩展且高性能的容器管理服务", tags: ["混合云管理", "CICD集成", "容器编排"] },
+                        { name: "腾讯 Kubernetes 无服务器引擎", desc: "安全、弹性且经济高效的无服务器 Kubernetes 服务", tags: ["按需计费", "零运维", "秒级部署"] },
+                        { name: "腾讯容器注册中心", desc: "安全专用的容器镜像分发服务", tags: ["安全扫描"] },
+                        { name: "无服务器云函数", desc: "安全高效的 Serverless 函数计算平台", tags: ["事件驱动", "毫秒计费", "自动化"] },
+                        { name: "Serverless 应用中心", desc: "一站式 Serverless 应用程序开发服务", tags: ["快速部署", "模块化"] },
+                        { name: "CKafka 的 TDMQ", desc: "高性能且可靠的 Kafka 兼容消息传递系统", tags: ["高吞吐", "Kafka兼容"] },
+                        { name: "适用于 CMQ 的 TDMQ", desc: "原始的腾讯云 CMQ，一种高性能的消息队列服务", tags: ["轻量级", "高可用"] },
+                        { name: "腾讯云网格", desc: "在集中式云原生平台上管理您的应用程序通信网络", tags: ["流量智力", "跨集群管理"] },
+                        { name: "腾讯云 Elastic 微服务", desc: "安全可靠且高弹性的无服务器微服务平台", tags: ["开箱即用", "弹性伸缩"] }
+                    ],
+                    "人工智能与机器学习": [
+                        { name: "人脸识别", desc: "准确、实时的面部检测、分析、识别和搜索服务", tags: ["实名认证", "客流分析", "金融级精度"] },
+                        { name: "自动语音识别", desc: "高性价比、识别准确率高、适用性广的语音识别服务", tags: ["客服质检", "会议转录", "方言支持"] },
+                        { name: "文本到语音转换", desc: "提供逼真语音合成的智能服务", tags: ["语音助手", "多音色"] },
+                        { name: "腾讯机器翻译", desc: "十多种语言的高效准确翻译服务", tags: ["跨境电商", "文档翻译", "多语种支持"] },
+                        { name: "光学字符识别", desc: "精确、快速、多功能的图像和文本识别服务", tags: ["图像识别", "文本识别"] },
+                        { name: "面部融合", desc: "融合五官，实现疯狂换脸", tags: ["娱乐特效", "智能换脸", "实时渲染"] },
+                        { name: "eKYC 协议", desc: "通过安全的人脸识别服务验证用户身份", tags: ["身份验证"] },
+                        { name: "腾讯云 AI 数字人", desc: "新一代多模态人机交互系统，快速打造智能、生动、互动的数智克隆", tags: ["虚拟主播", "智能客服", "多模态交互"] },
+                        { name: "腾讯云 TI 平台", desc: "面向 AI 工程师的一站式机器学习服务平台", tags: ["AutoML", "模型工厂"] }
+                    ],
+                    "CDN与边缘": [
+                        { name: "腾讯云 EdgeOne", desc: "基于腾讯全球边缘节点，面向全球市场提供 4/7 层安全防护和加速服务", tags: ["全球节点", "4/7层防护", "一站式加速"] },
+                        { name: "内容分发网络", desc: "快速、稳定、智能、安全的内容分发服务", tags: ["智能缓存", "多源拉取"] },
+                        { name: "企业内容分发网络", desc: "动态和混合资源的一站式加速服务", tags: ["动态加速", "混合分发", "API优化"] },
+                        { name: "安全的内容交付网络", desc: "集成了多种安全防护能力的内容分发网络", tags: ["强防护", "WAF集成"] },
+                        { name: "DDoS 防护", desc: "为不同行业提供 DDoS 防护解决方案的可靠系统", tags: ["T级防护", "智能清洗", "业务高可用"] },
+                        { name: "全球 Office 访问", desc: "从任何网络快速安全地访问组织资源", tags: ["SASE架构", "零信任安全", "跨国加速"] },
+                        { name: "边缘计算机", desc: "靠近用户的分布式低延迟弹性计算资源", tags: ["低延迟计算", "就近部署", "轻量容器"] }
+                    ],
+                    "大数据": [
+                        { name: "弹性 MapReduce", desc: "安全灵活的云托管 Hadoop 服务", tags: ["安全合规", "存算分离", "Hadoop/Spark 托管"] },
+                        { name: "Elasticsearch 服务", desc: "基于云的即用型 Elasticsearch 服务", tags: ["全文检索", "一键部署"] },
+                        { name: "流计算服务", desc: "基于云的流数据聚合和计算服务", tags: ["实时ETL", "事件驱动", "低延迟"] },
+                        { name: "数据湖计算", desc: "下一代云原生敏捷数据湖分析服务", tags: ["多引擎兼容"] },
+                        { name: "腾讯云 TCHouse-C", desc: "简单易用的云端 ClickHouse 托管服务", tags: ["轻量托管", "快速入门", "成本优化"] },
+                        { name: "腾讯云 TCHouse-D", desc: "实时 OLAP 数据分析服务，提供易于使用、低维护、基于云的完全托管服务", tags: ["高并发", "PB级分析"] },
+                        { name: "腾讯云 TCHouse-P", desc: "方便且经济高效的云上数据仓库服务", tags: ["企业数仓", "混合负载", "弹性扩容"] }
+                    ],
+                    "视频云": [
+                        { name: "聊天", desc: "一种通信服务，支持一对一聊天、群聊、聊天室、系统通知和其他消息传递功能", tags: ["安全加密", "多媒体支持", "多端互通"] },
+                        { name: "实时通信", desc: "在 30 分钟内构建音频通话、视频通话或交互式实时流式处理应用程序", tags: ["低延迟", "高并发", "全场景"] },
+                        { name: "云联络中心", desc: "通过嵌入式云联络中心功能助力客户成功", tags: ["智能客服", "灵活配置"] },
+                        { name: "游戏多媒体引擎", desc: "易于集成的一站式游戏语音解决方案", tags: ["一键部署"] },
+                        { name: "低代码互动课堂", desc: "15 分钟快速搭建自己的跨平台互动课堂，为您的学校或企业提供高度稳定且高性价比的在线互动课堂服务", tags: ["快速入门", "高性价比"] },
+                        { name: "云流媒体服务", desc: "快速、稳定、专业的基于云的直播服务", tags: ["低延迟", "弹性扩展"] },
+                        { name: "视频点播", desc: "一站式媒体转码和分发平台", tags: ["按需播放", "内容管理"] },
+                        { name: "移动视频直播", desc: "用于在移动设备上推送和拉取直播流的快速集成解决方案", tags: ["低延迟", "高并发", "安全防护"] },
+                        { name: "用户生成的短视频 SDK", desc: "轻松创建短视频移动应用程序", tags: ["快速创作"] },
+                        { name: "腾讯 Effect SDK", desc: "带有美颜滤镜和贴纸的高级视频处理解决方案", tags: ["实时渲染", "短视频集成"] },
+                        { name: "媒体处理服务", desc: "专业且多功能的多媒体处理服务", tags: ["智能任务编排"] },
+                        { name: "云应用程序渲染", desc: "将您的应用程序移动到云中以进行实时渲染和流式传输，以便您的用户可以通过网页、应用程序或其他设备使用它", tags: ["实时渲染", "流式传播"] }
+                    ],
+                    "安全": [
+                        { name: "云防火墙", desc: "通过集中管理云访问控制、安全隔离和业务可见性来降低运营成本", tags: ["安全隔离", "业务可见", "网络访问控制"] },
+                        { name: "云工作负载保护平台", desc: "使用全方位的安全服务保护您的服务器", tags: ["服务器保障", "全方位安全", "工作负载安全"] },
+                        { name: "腾讯容器安全服务", desc: "TCSS 提供镜像和运行时安全服务，在容器的整个生命周期中为其提供保护", tags: ["容器防护", "全生命周期"] },
+                        { name: "云安全中心", desc: "腾讯云原生安全管理平台", tags: ["云原生管理", "安全管理", "云安全控"] },
+                        { name: "漏洞扫描服务", desc: "便捷准确的漏洞扫描服务，让您的资产更安全", tags: ["精准扫描", "漏洞检测"] },
+                        { name: "Web 应用程序防火墙", desc: "一站式网站服务智能安全防护平台", tags: ["网站防护", "一站式智能", "Web防护"] },
+                        { name: "验证码", desc: "使用全方位的 CAPTCHA 保护您的网站和应用程序免受机器人的侵害", tags: ["反机器人", "网站应用", "验证防护"] },
+                        { name: "反作弊专家", desc: "为腾讯游戏赋能的专业手游安全解决方案", tags: ["游戏安全", "反作弊策"] },
+                        { name: "反欺诈", desc: "安全、稳定、高度灵活的计算服务", tags: ["灵活防诈", "稳定计算"] },
+                        { name: "风控引擎", desc: "实时保护，防止账户和付款欺诈", tags: ["风控保障"] },
+                        { name: "客户身份访问管理", desc: "CIAM 整合账号信息，打通用户 OneID 数据，提供安全便捷的应用访问体验", tags: ["账号整合", "便捷访问", "身份管控"] }
+                    ],
+                    "企业服务与云通信": [
+                        { name: "短信服务", desc: "快速、稳定且易于使用的消息传递服务，具有全球可访问性", tags: ["全球消息", "快速稳定", "短信传递"] },
+                        { name: "简单的电子邮件服务", desc: "安全、稳定、简单的邮件推送服务", tags: ["安全邮件", "稳定推送", "邮件服务"] },
+                        { name: "域", desc: "领先的域名注册商，提供全面的域名注册和管理服务", tags: ["域名注册", "全面管理", "域名服务"] },
+                        { name: "DNSPod 数据库", desc: "提供快速、稳定且高度可用的 DNS 服务", tags: ["快速DNS", "稳定可用", "数据库DNS"] },
+                        { name: "HTTPDNS 协议", desc: "安全、稳定、高效的移动 DNS 服务，避免本地 DNS 带来的域名劫持", tags: ["移动DNS", "防劫持网", "HTTPDNS"] },
+                        { name: "私有 DNS", desc: "安全、稳定、高效的私有 DNS 服务", tags: ["高效私有", "安全服务", "私有DNS"] },
+                        { name: "SSL 证书服务", desc: "一站式数字证书管理服务", tags: ["数字证书", "一站式管", "证书管理"] }
+                    ]
+                },
+                "华为云": {
+                    "产品推荐": [
+                        { name: "ModelArts Studio大模型即服务平台", desc: "模型全、免配置、免调优、性能优", tags: ["DeepSeek满血版", "快速部署", "免费体验"] },
+                        { name: "Flexus云服务", desc: "新一代性能倍增、体验跃级的云服务系列", tags: ["性能倍增", "体验跃级"] },
+                        { name: "弹性云服务器 ECS", desc: "可随时自动获取、弹性伸缩的云服务器", tags: ["弹性伸缩", "自动获取"] },
+                        { name: "盘古大模型 PanguLargeModels", desc: "基础模型、行业大模型、大模型开发平台", tags: ["AI for Industries", "千行百业"] },
+                        { name: "云数据库 RDS for MySQL", desc: "3倍性能提升、智能运维、高可用高可靠", tags: ["性能提升", "智能运维", "完全兼容MySQL"] },
+                        { name: "对象存储服务 OBS", desc: "稳定可靠、超高性能、极简管理", tags: ["稳定安全", "高效易用"] },
+                        { name: "云桌面 Workspace", desc: "弹性高效、体验极致", tags: ["即开即用", "云上虚拟桌面"] },
+                        { name: "域名注册服务 Domains", desc: "域名种类齐全、一站式、超高性价比", tags: ["域名购买", "转入续费"] },
+                        { name: "虚拟私有云 VPC", desc: "100%隔离、灵活部署、高速带宽", tags: ["网络隔离", "私密空间"] },
+                        { name: "企业门户 EWP", desc: "海量模板、多端合一", tags: ["无需代码", "快速搭建"] },
+                        { name: "数据治理中心 DataArts Studio", desc: "2倍+效率提升、企业级管理、多层安全防护", tags: ["数据开发", "数据治理"] }
+                    ],
+                    "计算与网络": [
+                        { name: "弹性云服务器 ECS", desc: "安全稳定、场景丰富", tags: ["弹性伸缩", "自动获取"] },
+                        { name: "Flexus云服务", desc: "快速搭建、高性价比", tags: ["性能倍增", "体验跃级"] },
+                        { name: "GPU加速云服务器 GACS", desc: "图形加速 深度学习", tags: ["GPU计算", "弹性服务器"] },
+                        { name: "FPGA加速云服务器 FACS", desc: "高性能 硬件优化", tags: ["FPGA计算", "硬件优化"] },
+                        { name: "裸金属服务器 BMS", desc: "高性能 安全合规", tags: ["物理服务器", "安全合规"] },
+                        { name: "云手机服务器 CPH", desc: "虚拟手机 云端测试", tags: ["虚拟手机", "云端测试"] },
+                        { name: "专属主机 DeH", desc: "独立资源 物理隔离", tags: ["专属物理主机", "物理隔离"] },
+                        { name: "镜像服务 IMS", desc: "快速部署 镜像管理", tags: ["镜像管理", "快速部署"] },
+                        { name: "函数工作流 FunctionGraph", desc: "事件驱动 自动运维", tags: ["无服务器", "事件驱动"] },
+                        { name: "云化数据中心 CloudDC", desc: "快速云化 资源整合 平滑迁移", tags: ["云化转型", "平滑迁移"] },
+                        { name: "弹性负载均衡 ELB", desc: "流量分发 高可用 自动调度", tags: ["流量分发", "自动调度"] }
+                    ],
+                    "存储与数据库": [
+                        { name: "对象存储服务 OBS", desc: "稳定可靠、超高性能、极简管理", tags: ["高效易用", "云存储"] },
+                        { name: "云硬盘 EVS", desc: "持久化 高性能", tags: ["块存储", "持久化"] },
+                        { name: "云备份 CBR", desc: "数据备份 灾备恢复", tags: ["备份服务", "灾备恢复"] },
+                        { name: "弹性文件服务 SFS", desc: "文件共享 全托管 多协议", tags: ["NAS文件存储", "多协议"] },
+                        { name: "高性能弹性文件服务 SFS Turbo", desc: "稳定高效、易用安全", tags: ["低时延", "全托管"] },
+                        { name: "专属分布式存储服务 DSS", desc: "高性能 企业级", tags: ["独享存储", "企业级"] },
+                        { name: "存储容灾服务 SDRS", desc: "业务容灾 数据保护 高可用", tags: ["跨AZ容灾", "高可用"] },
+                        { name: "云硬盘备份 VBS", desc: "在线备份 数据保护 秒级恢复", tags: ["在线备份", "秒级恢复"] },
+                        { name: "云数据库 TaurusDB", desc: "7倍性能提升、秒级快照备份、128TB海量存储", tags: ["兼容MySQL", "企业级"] },
+                        { name: "云数据库 GaussDB", desc: "高安全、高弹性、高智能、高性能", tags: ["分布式", "关系型数据库"] },
+                        { name: "云数据库 RDS for PostgreSQL", desc: "15+安全认证、高可用高可靠、高性价比", tags: ["开源数据库", "安全认证"] }
+                    ],
+                    "容器与中间件": [
+                        { name: "华为云UCS", desc: "全域协同 云原生服务", tags: ["云原生", "全域协同"] },
+                        { name: "云容器引擎 CCE", desc: "企业级容器 高可靠", tags: ["容器管理", "企业级"] },
+                        { name: "云容器实例 CCI", desc: "敏捷安全", tags: ["Serverless", "容器服务"] },
+                        { name: "容器镜像服务 SWR", desc: "镜像托管", tags: ["生命周期管理", "镜像托管"] },
+                        { name: "智能边缘平台 IEF", desc: "海量边缘管理、极致轻量", tags: ["边云协同", "边缘应用"] },
+                        { name: "微服务引擎 CSE", desc: "企业级微服务平台、拥抱开源", tags: ["服务治理", "配置管理"] },
+                        { name: "分布式缓存服务Redis®版", desc: "规格灵活、4倍性能", tags: ["内存数据处理", "兼容Redis"] },
+                        { name: "分布式缓存服务Memcached版", desc: "即开即用、无忧运维", tags: ["分布式缓存", "高性能"] },
+                        { name: "分布式消息服务 DMS", desc: "高吞吐、亿级消息堆积", tags: ["消息队列", "高吞吐"] },
+                        { name: "API网关 APIG", desc: "千亿API日调用量", tags: ["API管理", "任意规模"] },
+                        { name: "多活高可用服务 MAS", desc: "业务级、E2E", tags: ["故障切换", "容灾演练"] }
+                    ],
+                    "人工智能与机器学习": [
+                        { name: "盘古大模型", desc: "基础模型、行业大模型、大模型开发平台", tags: ["行业大模型", "三层架构"] },
+                        { name: "图像搜索 ImageSearch", desc: "搜索精度高、海量图像搜索、简单高效", tags: ["特征向量化", "图像搜索"] },
+                        { name: "人脸识别服务 FRS", desc: "身份验证、电子考勤、客流分析", tags: ["人脸检测", "精确比对"] },
+                        { name: "人证核身服务 IVS", desc: "权威可信、配套丰富、超高性能", tags: ["身份验证", "权威数据库"] },
+                        { name: "视频智能分析服务 VIAS", desc: "智慧园区、城市治理、安全生产", tags: ["视频AI分析", "事件感知"] },
+                        { name: "AI开发平台ModelArts", desc: "端到端模型、高性价比、超大规模", tags: ["模型管理", "AI工作流"] },
+                        { name: "内容审核 Moderation", desc: "文本审核、图像审核、音视频审核", tags: ["内容检测", "业务风险"] },
+                        { name: "语音交互服务 SIS", desc: "多语言多音色、准确率高、识别速度快", tags: ["人机交互", "语音识别"] },
+                        { name: "八爪鱼自动驾驶云服务 Octopus", desc: "开箱即用、20w+仿真场景库", tags: ["自动驾驶", "仿真场景"] }
+                    ],
+                    "CDN与边缘": [
+                        { name: "内容分发网络 CDN", desc: "内容加速 就近访问 负载优化", tags: ["内容加速", "网络拥挤"] },
+                        { name: "全站加速 WSA", desc: "动态加速 流畅体验", tags: ["网络传输", "访问体验"] },
+                        { name: "智能边缘云 IEC", desc: "超低延迟 本地化服务", tags: ["低时延", "本地化"] },
+                        { name: "CloudPond", desc: "本地化部署 一体化服务 边缘云计算", tags: ["边缘计算", "本地化部署"] }
+                    ],
+                    "大数据": [
+                        { name: "MapReduce服务 MRS", desc: "Hadoop生态 企业级托管 多引擎支持", tags: ["大数据集群", "企业级"] },
+                        { name: "数据湖探索 DLI", desc: "SQL交互 无服务器架构", tags: ["流批融合", "无服务器"] },
+                        { name: "实时流计算服务 CS", desc: "亚秒延迟 事件驱动", tags: ["实时分析", "亚秒延迟"] },
+                        { name: "云数据仓库 GaussDB(DWS)", desc: "PB级存储 并行计算 极致性能", tags: ["按需扩展", "极致性能"] },
+                        { name: "表格存储服务 CloudTable", desc: "时序数据 毫秒查询", tags: ["云数仓", "企业级"] },
+                        { name: "可信智能计算服务 TICS", desc: "隐私计算 多方安全 数据确权", tags: ["数据流通", "隐私计算"] },
+                        { name: "数智融合计算服务 DataArtsFabric", desc: "低代码开发 知识图谱", tags: ["数据+AI", "低代码"] },
+                        { name: "数据可视化 DLV", desc: "多源接入、可视化数据", tags: ["数据大屏", "可视化组件"] },
+                        { name: "智能数据洞察 DataArts Insight", desc: "新一代BI服务，支撑业务实时高效决策", tags: ["BI服务", "实时决策"] },
+                        { name: "云搜索服务 CSS", desc: "实时BI 智能预警", tags: ["多条件检索", "分析能力"] },
+                        { name: "日志分析服务 Log", desc: "日志治理 智能运维", tags: ["ELK日志", "开箱即用"] }
+                    ],
+                    "视频云": [
+                        { name: "华为云实时音视频 SparkRTC", desc: "超低延迟", tags: ["实时音视频", "互联网通信"] },
+                        { name: "视频直播 Live", desc: "超高清直播 智能调度", tags: ["端到端直播", "超高清"] },
+                        { name: "视频点播 VOD", desc: "极速分发 多终端适配", tags: ["视频处理", "多终端"] },
+                        { name: "媒体处理 MPC", desc: "智能转码 质量优化", tags: ["音视频转码", "弹性处理"] },
+                        { name: "行业视频管理服务 IVM", desc: "智能分析 云端协同", tags: ["设备管理", "机器视觉"] },
+                        { name: "数字内容生产线 MetaStudio", desc: "内容生成、一站式", tags: ["数字内容", "一站式生产"] }
+                    ],
+                    "安全": [
+                        { name: "DDoS防护 AAD", desc: "智能调度、快速响应", tags: ["网络攻击", "快速缓解"] },
+                        { name: "Web应用防火墙 WAF", desc: "千万级QPS、SLA 99.95%、25个区域", tags: ["恶意请求", "未知威胁"] },
+                        { name: "云防火墙 CFW", desc: "一站式合规、安全上云服务、权威认证", tags: ["流量管控", "入侵防护"] },
+                        { name: "边缘安全 EdgeSec", desc: "超大防护带宽、一键开启、海量资源", tags: ["边缘应用", "安全加速"] },
+                        { name: "企业主机安全 HSS", desc: "主机安全、容器安全、网页防篡改", tags: ["服务器安全", "安全管家"] },
+                        { name: "容器安全服务 CGS", desc: "容器防逃逸、轻量Agent", tags: ["容器防护", "生命周期安全"] },
+                        { name: "云堡垒机 CBH", desc: "自动化运维、身份认证、易于审计", tags: ["主机管理", "运维审计"] },
+                        { name: "数据库安全服务 DBSS", desc: "敏感脱敏 风险告警", tags: ["数据库审计", "SQL注入检测"] },
+                        { name: "数据加密服务 DEW", desc: "数据加解密、等保合规、多种密钥算法", tags: ["数据加密", "密钥托管"] },
+                        { name: "云证书管理服务 CCM", desc: "证书生命周期管理、一键部署、私有CA托管", tags: ["SSL证书", "私有证书"] },
+                        { name: "数据安全中心 DSC", desc: "数据脱敏 数据水印 DSPM", tags: ["数据安全治理", "云原生"] },
+                        { name: "安全云脑 SecMaster", desc: "态势感知 风险预防 威胁运营", tags: ["智能安全", "安全运营"] }
+                    ],
+                    "企业服务与云通信": [
+                        { name: "域名注册服务 Domains", desc: "域名管理", tags: ["域名购买", "域名管理"] },
+                        { name: "云解析服务 DNS", desc: "智能调度 DNS安全", tags: ["高可用", "DNS管理"] },
+                        { name: "华为云会议 Meeting", desc: "专业会管会控 安全可靠 混合部署 全平台", tags: ["端云协同", "视频会议"] },
+                        { name: "华为云WeLink", desc: "智能纪要、智能助手、企业协同", tags: ["协同办公", "数字化"] },
+                        { name: "解决方案工作台 InnoStage Workbench", desc: "案例库 快速交付", tags: ["解决方案", "快速交付"] },
+                        { name: "应用与数据集成平台 ROMAConnect", desc: "数据流转 消息中台", tags: ["无缝联接", "数据集成"] },
+                        { name: "政企自服务管理服务 ESM", desc: "配额管理 资源监控 自主运维", tags: ["自主运营", "管理能力"] },
+                        { name: "云客服 CEC", desc: "全渠道接入 数据分析", tags: ["呼叫中心", "云服务"] },
+                        { name: "ROMA资产中心 ROMAExchange", desc: "资产共享 生态开放", tags: ["数字资产", "统一平台"] },
+                        { name: "隐私保护通话 PrivateNumber", desc: "号码隐藏 防骚扰 合规通信", tags: ["隐私保护", "号码隐藏"] },
+                        { name: "云管理网络 CMN", desc: "网络规划 策略下发 智能运维", tags: ["集中管理", "网络管理"] }
+                    ]
+                },
+                "谷歌云": {
+                    "产品推荐": [
+                        { name: "Compute Engine", desc: "在 Google 的数据中心运行的虚拟机", tags: ["灵活扩展", "云虚拟机"] },
+                        { name: "Cloud Storage", desc: "安全、耐用且可伸缩的对象存储服务", tags: ["对象存储", "安全耐用"] },
+                        { name: "BigQuery", desc: "可实现业务敏捷性并提供数据洞见的数据仓库", tags: ["数据仓库", "实时分析"] },
+                        { name: "Cloud Run", desc: "用于运行容器化应用的全代管式环境", tags: ["容器托管", "无服务器"] },
+                        { name: "Google Kubernetes Engine", desc: "用于运行容器化应用的代管式环境", tags: ["K8S托管", "自动扩缩"] },
+                        { name: "Vertex AI", desc: "用于机器学习模型和生成式 AI 的统一平台", tags: ["AI平台", "统一开发"] },
+                        { name: "Cloud SQL", desc: "适用于 MySQL、PostgreSQL 和 SQL Server 的关系型数据库服务", tags: ["关系数据库", "完全托管"] },
+                        { name: "Looker", desc: "提供商业智能、数据应用和嵌入式分析的平台", tags: ["商业智能", "数据可视化"] },
+                        { name: "Apigee API Management", desc: "随时随地以直观且可掌控的方式来管理 API 的整个生命周期", tags: ["API管理", "全周期管控"] },
+                        { name: "Gemini", desc: "由 Gemini 提供支持的 Google Cloud 产品", tags: ["AI引擎", "智能赋能"] },
+                        { name: "Cloud CDN", desc: "用于分发 Web 内容和视频内容的内容分发网络", tags: ["内容分发", "全球加速"] }
+                    ],
+                    "计算与网络": [
+                        { name: "Compute Engine", desc: "在 Google 的数据中心运行的虚拟机", tags: ["灵活扩展", "云虚拟机"] },
+                        { name: "App Engine", desc: "适用于应用和后端的无服务器应用平台", tags: ["自动扩缩", "支持多语言"] },
+                        { name: "Cloud GPU", desc: "可助力机器学习、科学计算和 3D 可视化的 GPU", tags: ["加速计算", "AI训练"] },
+                        { name: "Migrate to Virtual Machines", desc: "用于将服务器和虚拟机迁移到 Compute Engine", tags: ["云端迁移", "平滑过渡"] },
+                        { name: "Spot 虚拟机", desc: "适用于批量作业和容错工作负载的计算实例", tags: ["临时实例", "成本优化"] },
+                        { name: "裸金属", desc: "用于在 Google Cloud 上运行特殊工作负载的基础架构", tags: ["物理服务器", "高性能"] },
+                        { name: "VMware Engine", desc: "全代管式原生 VMware Cloud Foundation 软件栈", tags: ["全托管", "无缝迁移"] },
+                        { name: "Cloud Run", desc: "用于运行容器化应用的全代管式环境", tags: ["容器托管", "无服务器"] },
+                        { name: "Cloud Armor", desc: "针对 Web 攻击和 DDoS 攻击的安全政策和防御机制", tags: ["Web防护", "DDoS防御"] },
+                        { name: "Cloud DNS", desc: "提供可靠、低延迟的域名查询服务的域名系统", tags: ["高可用", "低延迟"] },
+                        { name: "Cloud Load Balancing", desc: "跨应用和区域分配流量的服务", tags: ["域名解析", "全球覆盖"] },
+                        { name: "Cloud NAT", desc: "用于向私有实例授予互联网访问权限的 NAT 服务", tags: ["私有网络", "安全出网"] },
+                        { name: "Network Service Tiers", desc: "基于性能、可用性和费用的 Cloud 网络方案", tags: ["网络分层", "按需选择"] }
+                    ],
+                    "存储与数据库": [
+                        { name: "AlloyDB for PostgreSQL", desc: "与 PostgreSQL 兼容的全代管式数据库，适用于企业工作负载", tags: ["全托管", "企业级"] },
+                        { name: "Cloud SQL", desc: "面向 MySQL、PostgreSQL 和 SQL Server 的全代管式数据库", tags: ["关系数据库"] },
+                        { name: "Firestore", desc: "用于构建丰富的移动、Web 和 IoT 应用的云原生文档数据库", tags: ["文档数据库", "实时同步"] },
+                        { name: "Spanner", desc: "云原生关系型数据库，规模不受限制，可用性高达 99.999%", tags: ["全球数据库", "强一致性"] },
+                        { name: "Bigtable", desc: "适用于大规模、低延迟工作负载的云原生宽列数据库", tags: ["宽列存储", "海量吞吐"] },
+                        { name: "Datastream", desc: "无服务器变更数据捕获和复制服务", tags: ["数据复制", "实时同步"] },
+                        { name: "Database Migration Service", desc: "使用无服务器技术以最短停机时间迁移到 Cloud SQL", tags: ["云端搬迁", "平滑过渡"] },
+                        { name: "裸金属解决方案", desc: "面向 Oracle 工作负载的全托管式基础设施", tags: ["硬件直通", "物理服务器"] },
+                        { name: "Memorystore", desc: "全托管式 Redis 和 Memcached，可实现亚毫秒级的数据访问", tags: ["亚毫秒响应", "全托管"] },
+                        { name: "Cloud Storage", desc: "安全、耐用且可伸缩的对象存储服务", tags: ["高可用", "高耐用", "对象存储"] },
+                        { name: "块存储", desc: "适用于 AI、分析、数据库和企业应用的高性能存储服务", tags: ["高性能", "企业级"] },
+                        { name: "Filestore", desc: "伸缩能力极强且安全可靠的文件存储服务", tags: ["文件存储", "灵活伸缩"] }
+                    ],
+                    "容器与中间件": [
+                        { name: "Google Kubernetes Engine", desc: "用于运行容器化应用的代管式环境", tags: ["容器编排服务", "企业级"] },
+                        { name: "Cloud Run", desc: "用于运行容器化应用的全代管式环境", tags: ["容器托管", "无服务器"] },
+                        { name: "Cloud Build", desc: "用于在 Docker 容器中运行构建步骤的解决方案", tags: ["持续集成", "Docker构建"] },
+                        { name: "Artifact Registry", desc: "构建制品和依赖项的软件包管理器", tags: ["容器镜像管理", "私有仓库"] },
+                        { name: "Cloud Code", desc: "可提供 IDE 支持，帮助您编写、运行和调试 Kubernetes 应用", tags: ["开发调试支持"] },
+                        { name: "Cloud Deploy", desc: "以全代管式方式持续交付到 GKE 和 Cloud Run", tags: ["持续交付", "GKE/Run发布"] },
+                        { name: "Migrate to Containers", desc: "用于将虚拟机迁移到 GKE 上的系统容器的各种组件", tags: ["GKE迁移工具"] },
+                        { name: "Deep Learning Containers", desc: "具有各种数据科学框架、库和工具的容器", tags: ["深度学习"] },
+                        { name: "Knative", desc: "用于构建 Kubernetes 原生云软件的组件", tags: ["云原生组件", "无服务器"] }
+                    ],
+                    "人工智能与机器学习": [
+                        { name: "Vertex AI Platform", desc: "用于机器学习模型和生成式 AI 的统一平台", tags: ["机器学习", "统一全流程"] },
+                        { name: "Vertex AI Studio", desc: "在 Vertex AI 上构建、调整和部署基础模型", tags: ["基础模型构建", "调优托管"] },
+                        { name: "Vertex AI Agent Builder", desc: "构建和部署生成式 AI体验", tags: ["AI智能体", "生成式部署"] },
+                        { name: "对话代理", desc: "使用确定性和生成式 AI 功能构建对话式 AI", tags: ["对话式AI", "混合推理"] },
+                        { name: "Vertex AI Search", desc: "为您的企业应用和体验构建 Google 品质的搜索功能", tags: ["企业搜索", "一致性体验"] },
+                        { name: "Speech-to-Text", desc: "支持 125 种语言的语音识别和转录服务", tags: ["语音识别", "语音转录"] },
+                        { name: "Text-to-Speech", desc: "支持 220 多种语音和 40 多种语言的语音合成服务", tags: ["语音合成", "多语言"] },
+                        { name: "Translation AI", desc: "提供语言检测、翻译和术语库支持", tags: ["智能翻译"] },
+                        { name: "Document AI", desc: "大规模自动处理文档并捕获数据", tags: ["文档处理", "结构化提取"] },
+                        { name: "Vision AI", desc: "用于检测情绪、文本等内容的各种自定义模型和预训练模型", tags: ["图像分析", "预训练模型"] }
+                    ],
+                    "CDN与边缘": [
+                        { name: "Cloud CDN", desc: "用于分发 Web 内容和视频内容的内容分发网络", tags: ["全球内容分发"] },
+                        { name: "互联 Google Distributed Cloud", desc: "适用于边缘工作负载的分布式云服务", tags: ["边缘计算", "全托管基础设施"] },
+                        { name: "Google Distributed Cloud", desc: "适用于边缘和数据中心的全代管式硬件和软件解决方案", tags: ["混合部署方案", "本地化数据处理"] }
+                    ],
+                    "大数据": [
+                        { name: "BigQuery", desc: "可实现业务敏捷性并提供数据洞见的数据仓库", tags: ["数据分析"] },
+                        { name: "Bigtable", desc: "延迟工作负载的云原生宽列数据库", tags: ["宽列数据库", "百万级TPS低延迟"] },
+                        { name: "BigLake", desc: "用于将数据仓库和数据湖融为一体的存储引擎", tags: ["统一存储引擎", "湖仓一体架构"] }
+                    ],
+                    "视频云": [
+                        { name: "Cloud CDN", desc: "用于提供 Web 内容和视频内容的内容分发网络", tags: ["全球内容分发"] },
+                        { name: "Live Stream API", desc: "这项服务可用来转换实时视频和软件包以进行流式传输", tags: ["超低延迟直播", "协议转换"] },
+                        { name: "OpenCue", desc: "专为视效和动画行业设计的开源渲染管理器", tags: ["影视级渲染"] },
+                        { name: "Transcoder API", desc: "转换并打包视频文件，以优化视频传输", tags: ["智能转码", "自适应"] },
+                        { name: "Video Stitcher API", desc: "用于动态广告插播或服务器端广告插播的服务", tags: ["动态广告"] }
+                    ],
+                    "安全": [
+                        { name: "Cloud IAM", desc: "适用于 Google Cloud 资源的权限管理系统", tags: ["权限治理", "访问控制"] },
+                        { name: "敏感数据保护", desc: "帮助您发现、分类和保护宝贵的数据资产", tags: ["资产保护", "泄露防护"] },
+                        { name: "Mandiant Managed Defense", desc: "自信满满地全天候查找和消除威胁", tags: ["应急响应", "24小时"] },
+                        { name: "Security Command Center", desc: "用于保护 Google Cloud 资产免遭安全威胁的平台", tags: ["威胁监测", "资产防护"] },
+                        { name: "Cloud Key Management", desc: "在 Google Cloud 上管理加密密钥", tags: ["密钥托管", "数据加密"] },
+                        { name: "Mandiant Incident Response", desc: "尽可能减少安全事故的影响", tags: ["攻击溯源", "安全防护"] },
+                        { name: "Assured Workloads", desc: "针对敏感工作负载的合规与安全控制措施", tags: ["合规审计"] },
+                        { name: "Google Security Operations", desc: "检测、调查和应对网络威胁", tags: ["威胁监测", "事件调查"] }
+                    ],
+                    "企业服务与云通信": [
+                        { name: "Google Workspace", desc: "面向个人和组织的协作和办公工具", tags: ["云端协作", "文档共享"] },
+                        { name: "Google Workspace 基本功能版", desc: "为团队提供安全的视频会议功能和现代化协作功能", tags: ["视频会议", "团队协作"] },
+                        { name: "Telecom Subscriber Insights", desc: "注入数据以提升订阅者获取率和留存率", tags: ["用户画像", "流失预警"] },
+                        { name: "Service Catalog", desc: "有助于管理员管理内部企业解决方案的服务目录", tags: ["服务治理", "资源编排"] },
+                        { name: "对话代理", desc: "使用确定性和生成式 AI 功能构建对话式 AI", tags: ["意图识别", "多轮对话"] },
+                        { name: "联络中心即服务", desc: "云原生全渠道联络中心解决方案", tags: ["全渠道", "智能路由"] }
+                    ]
+                },
+                "亚马逊云": {
+                    "产品推荐": [
+                        { name: "Amazon EC2", desc: "云中的虚拟服务器", tags: ["弹性主机", "灵活配置"] },
+                        { name: "Amazon Simple Storage Service（S3）", desc: "云中的可扩展存储", tags: ["海量存储", "耐用"] },
+                        { name: "Amazon Aurora", desc: "高性能托管式关系数据库，可完全兼容 MySQL 和 PostgreSQL。", tags: ["5倍MySQL性能", "自动扩容"] },
+                        { name: "Amazon DynamoDB", desc: "托管型 NoSQL 数据库", tags: ["毫秒响应", "无限扩展"] },
+                        { name: "Amazon RDS", desc: "适用于 PostgreSQL、MySQL、MariaDB、SQL Server、Oracle 和 Db2 的托管式关系数据库服务", tags: ["全托管数据库", "多引擎支持"] },
+                        { name: "AWS Lambda", desc: "无需考虑服务器即可运行代码", tags: ["无服务器架构", "事件驱动"] },
+                        { name: "Amazon VPC", desc: "隔离型云资源", tags: ["私有云环境", "网络隔离"] },
+                        { name: "Amazon Lightsail", desc: "启动和管理虚拟专有服务器", tags: ["轻量VPS", "一键部署"] },
+                        { name: "Amazon SageMaker", desc: "大规模构建、训练和部署机器学习模型", tags: ["一站式AI开发", "自动模型调优"] }
+                    ],
+                    "计算与网络": [
+                        { name: "Amazon EC2", desc: "云端虚拟服务器", tags: ["弹性主机", "灵活配置"] },
+                        { name: "Amazon EC2 Auto Scaling", desc: "扩展计算能力以满足需求", tags: ["自动扩容", "负载均衡", "弹性伸缩"] },
+                        { name: "Amazon Lightsail", desc: "启动并管理虚拟专有服务器", tags: ["一键启动", "开发者友好"] },
+                        { name: "AWS App Runner", desc: "大规模构建和运行容器化 Web 应用程序", tags: ["全托管容器", "自动扩缩", "一键部署"] },
+                        { name: "AWS Batch", desc: "运行任意规模的批处理作业", tags: ["批量计算", "任务调度", "HPC优化"] },
+                        { name: "AWS Elastic Beanstalk", desc: "运行并管理 Web 应用", tags: ["应用托管", "自动部署"] },
+                        { name: "AWS Lambda", desc: "无需考虑服务器即可运行代码", tags: ["事件驱动", "按需计费", "无服务器计算"] },
+                        { name: "AWS Local Zones", desc: "在本地区域运行延迟敏感型应用程序", tags: ["本地扩展", "低延迟计算", "区域覆盖"] },
+                        { name: "AWS Outposts", desc: "运行本地部署 AWS 基础设施", tags: ["混合云架构", "数据中心集成"] },
+                        { name: "AWS Serverless Application Repository", desc: "发现、部署和发布无服务器应用程序", tags: ["无服务器模板", "快速部署"] },
+                        { name: "AWS SimSpace Weaver", desc: "在 AWS 托管的基础设施上构建动态的、大规模的空间模拟", tags: ["空间模拟", "超大规模仿真"] },
+                        { name: "AWS Snow 系列", desc: "物理设备聚合和处理边缘站点中的数据，然后将其传输到 AWS", tags: ["边缘计算", "离线数据处理"] },
+                        { name: "AWS Wavelength", desc: "为 5G 设备交付超低延迟应用程序", tags: ["超低延迟", "移动应用优化"] },
+                        { name: "VMware Cloud on AWS", desc: "无需自定义硬件即可构建混合云", tags: ["混合云迁移", "无缝集成"] }
+                    ],
+                    "存储与数据库": [
+                        { name: "Amazon Aurora", desc: "高性能托管式关系数据库，可完全兼容 MySQL 和 PostgreSQL", tags: ["高性能", "一键托管"] },
+                        { name: "Amazon Aurora Serverless v2", desc: "即时扩展到每秒超 10 万项事务", tags: ["自动伸缩", "事务处理"] },
+                        { name: "Amazon DocumentDB", desc: "完全托管式文档数据库", tags: ["全托管NoSQL", "自动扩缩"] },
+                        { name: "Amazon DynamoDB", desc: "托管型 NoSQL 数据库", tags: ["MongoDB 兼容"] },
+                        { name: "Amazon ElastiCache", desc: "内存中缓存服务", tags: ["内存缓存", "低延迟访问"] },
+                        { name: "Amazon MemoryDB for Redis", desc: "与 Redis 兼容、持久的内存数据库，可提供超快的性能", tags: ["实时分析", "兼容Redis"] },
+                        { name: "Amazon RDS on Outposts", desc: "自动化本地数据库管理", tags: ["混合云兼容", "自动管理", "本地托管"] },
+                        { name: "Amazon Redshift", desc: "便捷、简易且经济高效的数据仓库", tags: ["云数据仓库", "PB级分析"] },
+                        { name: "AWS Database Migration Service", desc: "以最短的停机时间迁移数据库", tags: ["零停机迁移", "异构数据库同步"] },
+                        { name: "Amazon Simple Storage Service (S3)", desc: "云端可扩展存储", tags: ["对象存储", "无限扩展"] },
+                        { name: "Amazon S3 Glacier 存储类", desc: "云端的低成本归档存储", tags: ["低成本归档", "长期存储"] },
+                        { name: "AWS 弹性灾难恢复（DRS）", desc: "经济高效的可扩展应用程序恢复", tags: ["应用级容灾", "按需恢复"] }
+                    ],
+                    "容器与中间件": [
+                        { name: "Amazon Elastic Container Registry", desc: "轻松存储、管理和部署容器映像", tags: ["高度安全", "简化负载"] },
+                        { name: "Amazon Elastic Container Service (ECS)", desc: "高度安全、可靠且可扩展的容器运行方式", tags: ["高可用部署"] },
+                        { name: "Amazon ECS Anywhere", desc: "在客户托管的基础设施中运行容器", tags: ["本地基础设施部署", "统一管理"] },
+                        { name: "Amazon Elastic Kubernetes Service (EKS)", desc: "最值得信赖的运行 Kubernetes 的方式", tags: ["企业级", "自动扩缩"] },
+                        { name: "Amazon EKS Anywhere", desc: "您基础设施上的 Kubernetes", tags: ["一致性部署", "自托管集群"] },
+                        { name: "Amazon EKS Distro", desc: "运行一致的 Kubernetes 集群", tags: ["开源兼容", "集群部署包"] },
+                        { name: "AWS App2Container", desc: "将现有应用程序容器化并迁移现有应用程序", tags: ["应用容器化", "自动迁移工具"] },
+                        { name: "AWS App Runner", desc: "大规模构建和运行容器化 Web 应用程序", tags: ["自动构建+部署", "无服务器托管"] },
+                        { name: "AWS Copilot", desc: "轻松部署和运行容器化应用程序", tags: ["快速部署", "自动化容器化"] },
+                        { name: "AWS Fargate", desc: "适用于容器的无服务器计算", tags: ["无服务器", "成本优化", "监控管理"] },
+                        { name: "AWS上的Red Hat OpenShift 服务", desc: "托管型 Red Hat OpenShift 集群", tags: ["灵活定价", "云上改造"] }
+                    ],
+                    "人工智能与机器学习": [
+                        { name: "Amazon Bedrock", desc: "使用基础模型构建", tags: ["托管基础模型", "低代码AI开发"] },
+                        { name: "Amazon SageMaker", desc: "大规模构建、训练和部署机器学习模型", tags: ["端到端ML平台", "自动训练调优"] },
+                        { name: "Amazon Augmented AI", desc: "轻松实施机器学习预测的人工审核", tags: ["人工校验工作流"] },
+                        { name: "Amazon Comprehend Medical", desc: "提取健康数据", tags: ["临床数据提取", "医疗应用"] },
+                        { name: "Amazon DevOps Guru", desc: "采用机器学习技术的云运营服务", tags: ["运维智能分析"] },
+                        { name: "Amazon Elastic Inference", desc: "提供一体式数据、分析和人工智能的体验", tags: ["模型开发", "数据处理", "SQL分析"] },
+                        { name: "Amazon Fraud Detector", desc: "更快发现更多在线欺诈行为", tags: ["实时反欺诈", "风险评估"] },
+                        { name: "AWS Entity Resolution 数据匹配服务", desc: "通过易于配置的工作流匹配和链接相关记录", tags: ["机器学习支持"] },
+                        { name: "Amazon Kendra", desc: "专为检索增强生成（RAG）和智能搜索而设计", tags: ["机器学习", "高效准确"] },
+                        { name: "Amazon Lex", desc: "构建语音和文本聊天机器人", tags: ["对话式AI", "多语言NLP"] },
+                        { name: "Amazon Lookout for Equipment", desc: "通过分析传感器数据检测异常行为", tags: ["传感器分析", "异常行为告警"] },
+                        { name: "Amazon Lookout for Vision", desc: "使用计算机视觉发现产品缺陷", tags: ["缺陷识别", "工业质检AI"] }
+                    ],
+                    "CDN与边缘": [
+                        { name: "Amazon CloudFront", desc: "全球内容分发网络", tags: ["CDN加速", "安全防护"] },
+                        { name: "AWS Outposts", desc: "运行本地部署 AWS 基础设施", tags: ["混合云", "本地部署"] },
+                        { name: "AWS Snow 系列", desc: "物理设备聚合和处理边缘站点中的数据，然后将其传输到 AWS", tags: ["边缘计算", "数据迁移"] },
+                        { name: "AWS Wavelength", desc: "为 5G 设备交付超低延迟应用程序", tags: ["5G优化", "超低延迟"] },
+                        { name: "AWS Local Zones", desc: "在更靠近最终用户和工作负载的 AWS 基础设施上运行应用程序", tags: ["近场计算", "降低时延"] }
+                    ],
+                    "大数据": [
+                        { name: "Amazon EMR", desc: "轻松运行大数据框架", tags: ["大数据处理", "集群管理"] },
+                        { name: "Amazon Athena", desc: "使用 SQL 在 S3 中查询数据", tags: ["交互查询", "S3分析"] },
+                        { name: "Amazon OpenSearch Service", desc: "对 PB 级文本和非结构化数据进行搜索、可视化和分析", tags: ["全文检索", "日志分析"] },
+                        { name: "Amazon Redshift", desc: "便捷、简易且经济高效的数据仓库", tags: ["数据仓库", "高性能分析"] },
+                        { name: "AWS Data Pipeline", desc: "适用于周期性数据驱动工作流的编排服务", tags: ["任务编排", "周期调度"] },
+                        { name: "AWS Glue", desc: "简单、可扩展的无服务器数据集成", tags: ["元数据管理"] },
+                        { name: "AWS Lake Formation", desc: "构建、管理和保护数据湖", tags: ["数据湖", "安全管控"] }
+                    ],
+                    "视频云": [
+                        { name: "Amazon Kinesis", desc: "分析实时视频和数据流", tags: ["实时流", "流处理"] },
+                        { name: "Amazon Elastic Transcoder", desc: "易用的可扩展媒体转码服务", tags: ["媒体转码", "自动伸缩"] },
+                        { name: "Amazon Interactive Video Service", desc: "托管型直播视频解决方案", tags: ["视频直播", "低延迟", "一键托管"] },
+                        { name: "Amazon Kinesis Video Streams", desc: "处理和分析视频串流", tags: ["视频分析", "流存储"] },
+                        { name: "Amazon Nimble Studio", desc: "建立一个数字内容创建工作室", tags: ["数字创作"] },
+                        { name: "AWS Elemental MediaConvert", desc: "转换基于文件的视频内容", tags: ["视频转码", "文件处理"] },
+                        { name: "AWS Elemental MediaLive", desc: "转换直播视频内容", tags: ["直播转码", "实时编码"] },
+                        { name: "AWS Elemental MediaTailor", desc: "视频个性化和盈利", tags: ["广告插入", "视频变现"] },
+                        { name: "AWS Thinkbox Deadline", desc: "渲染农场管理器", tags: ["渲染管理", "任务调度"] },
+                        { name: "AWS Thinkbox Frost", desc: "更快地创建粒子网格", tags: ["粒子模拟"] },
+                        { name: "AWS Thinkbox Krakatoa", desc: "渲染生产级容量", tags: ["体积渲染", "特效处理"] },
+                        { name: "AWS Thinkbox XMesh", desc: "优化动画几何文件", tags: ["几何优化"] }
+                    ],
+                    "安全": [
+                        { name: "AWS Identity and Access Management (IAM)", desc: "安全地管理服务和资源的使用权限", tags: ["权限管理", "访问控制"] },
+                        { name: "Amazon Cognito", desc: "应用程序身份管理", tags: ["身份验证", "用户管理"] },
+                        { name: "Amazon Detective", desc: "调查潜在的安全问题", tags: ["安全调查", "根因分析"] },
+                        { name: "Amazon GuardDuty", desc: "托管型威胁侦测服务", tags: ["威胁检测", "智能监控"] },
+                        { name: "Amazon Inspector", desc: "自动执行漏洞管理", tags: ["漏洞扫描", "合规检查"] },
+                        { name: "Amazon Macie", desc: "大规模发现和保护您的敏感数据", tags: ["敏感数据", "自动发现"] },
+                        { name: "Amazon Security Lake", desc: "点击几下即可自动化集中管理您的安全数据", tags: ["安全数据", "集中存储"] },
+                        { name: "Amazon Verified Permissions", desc: "应用程序的精细权限和授权", tags: ["权限验证", "精细授权"] },
+                        { name: "AWS Certificate Manager", desc: "预置、管理和部署 SSL/TLS 证书", tags: ["SSL证书", "自动续期"] },
+                        { name: "AWS Firewall Manager", desc: "集中管理防火墙规则", tags: ["规则集中", "统一防护"] },
+                        { name: "AWS WAF", desc: "过滤恶意 Web 流量", tags: ["Web防护", "流量过滤"] }
+                    ],
+                    "企业服务与云通信": [
+                        { name: "Amazon EventBridge", desc: "适用于 SaaS 应用程序和 AWS 服务的无服务器事件总线", tags: ["事件总线", "无服务器"] },
+                        { name: "Amazon Simple Notification Service (SNS)", desc: "发布/订阅短信、电子邮件和移动推送通知", tags: ["消息推送", "发布订阅"] },
+                        { name: "Amazon Simple Queue Service (SQS)", desc: "托管型消息队列", tags: ["消息队列", "异步通信"] }
+                    ]
+                }
+            };
+
+            // 使用纯 SVG 代码重写分类图标
+            const categoriesConfig = [
+                { id: "产品推荐", name: "产品推荐", svgIcon: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" /></svg>` },
+                { id: "计算与网络", name: "计算与网络", svgIcon: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 00-.12-1.03l-2.268-9.64a3.375 3.375 0 00-3.285-2.602H7.923a3.375 3.375 0 00-3.285 2.602l-2.268 9.64a4.5 4.5 0 00-.12 1.03v.228m19.5 0a3 3 0 01-3 3H5.25a3 3 0 01-3-3m19.5 0a3 3 0 00-3-3H5.25a3 3 0 00-3 3m16.5 0h.008v.008h-.008v-.008zm-3 0h.008v.008h-.008v-.008z" /></svg>` },
+                { id: "存储与数据库", name: "存储与数据库", svgIcon: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" /></svg>` },
+                { id: "容器与中间件", name: "容器与中间件", svgIcon: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg>` },
+                { id: "人工智能与机器学习", name: "人工智能与机器学习", svgIcon: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" /></svg>` },
+                { id: "CDN与边缘", name: "CDN与边缘", svgIcon: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" /></svg>` },
+                { id: "大数据", name: "大数据", svgIcon: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>` },
+                { id: "视频云", name: "视频云", svgIcon: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>` },
+                { id: "安全", name: "安全", svgIcon: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>` },
+                { id: "企业服务与云通信", name: "企业服务与云通信", svgIcon: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" /></svg>` }
+            ];
+
+            let activeCloud = "阿里云";
+            let activeCategory = "产品推荐";
+
+            const cloudTabsContainer = document.getElementById('platform-tabs');
+            const cloudDescContainer = document.getElementById('intro-text');
+            const categoryTabsContainer = document.getElementById('left-categories');
+            const productsGrid = document.getElementById('right-grid');
+            
+            // 渲染动态专属折扣以及外部链接
+            function renderDiscountAndLink() {
+                const linkElem = document.getElementById('intro-link');
+                const discountElem = document.getElementById('intro-discount');
+
+                // 设置专属外链
+                linkElem.href = cloudLinks[activeCloud] || "#";
+
+                // 设置专属折扣标签
+                let discountText = "";
+                if (discountConfig[activeCloud]) {
+                    // 优先取具体类别折扣，没有则取默认折扣
+                    discountText = discountConfig[activeCloud][activeCategory] || discountConfig[activeCloud]["default"] || "";
+                }
+
+                if (discountText) {
+                    discountElem.textContent = discountText;
+                    discountElem.style.display = "inline-flex";
+                } else {
+                    discountElem.style.display = "none";
+                }
+            }
+
+            function renderCloudTabs() {
+                cloudTabsContainer.innerHTML = '';
+                const clouds = Object.keys(productData);
+                clouds.forEach(cloud => {
+                    const btn = document.createElement('button');
+                    const isActive = cloud === activeCloud;
+                    btn.className = `platform-tab ${isActive ? 'active' : ''}`;
+                    btn.textContent = cloud;
+                    btn.onclick = () => {
+                        activeCloud = cloud;
+                        activeCategory = "产品推荐";
+                        renderCloudTabs();
+                        renderCloudDesc();
+                        renderCategoryTabs();
+                        renderProducts();
+                        renderDiscountAndLink();
+                    };
+                    cloudTabsContainer.appendChild(btn);
+                });
+            }
+
+            function renderCloudDesc() {
+                cloudDescContainer.textContent = cloudMeta[activeCloud] || "";
+            }
+
+            function renderCategoryTabs() {
+                categoryTabsContainer.innerHTML = '';
+                categoriesConfig.forEach(cat => {
+                    const btn = document.createElement('button');
+                    const isActive = cat.id === activeCategory;
+                    
+                    btn.className = `left-item ${isActive ? 'active' : ''}`;
+                    btn.onclick = () => {
+                        activeCategory = cat.id;
+                        renderCategoryTabs();
+                        renderProducts();
+                        renderDiscountAndLink();
+                    };
+
+                    btn.innerHTML = `
+                        <div class="left-item-icon">${cat.svgIcon}</div>
+                        <div class="left-item-title">${cat.name}</div>
+                    `;
+                    categoryTabsContainer.appendChild(btn);
+                });
+            }
+
+            function renderProducts() {
+                productsGrid.innerHTML = '';
+                const cloudData = productData[activeCloud];
+                const cards = cloudData ? cloudData[activeCategory] : [];
+
+                if (!cards || cards.length === 0) {
+                    productsGrid.innerHTML = `<div class="no-data">当前厂商暂未提供该分类下的产品数据，或正处于同步中。</div>`;
+                    return;
+                }
+
+                cards.forEach((card, index) => {
+                    const cardDiv = document.createElement('div');
+                    cardDiv.className = `product-item card-animate relative overflow-hidden`;
+                    cardDiv.style.animationDelay = `${index * 0.05}s`;
+
+                    let tagsHtml = '';
+                    if (card.tags && card.tags.length > 0) {
+                        tagsHtml = `<div class="product-tags">`;
+                        card.tags.forEach(tag => {
+                            tagsHtml += `<div class="product-tag">${tag}</div>`;
+                        });
+                        tagsHtml += `</div>`;
+                    }
+
+                    // 修改按钮为有右箭头的样式，并保留动画
+                    cardDiv.innerHTML = `
+                        <div class="relative z-10 flex-1">
+                            <h4 class="product-item-title" title="${card.name}">${card.name}</h4>
+                            <p class="product-item-desc" title="${card.desc}">${card.desc}</p>
+                            ${tagsHtml}
+                        </div>
+                        <div class="relative z-10 mt-2">
+                            <a href="https://t.me/deekcloud" target="_blank" class="product-btn">
+                                了解详情 
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
+                        </div>
+                        <div class="absolute right-0 top-0 w-24 h-24 bg-gradient-to-bl from-blue-50/40 to-transparent rounded-bl-full -z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    `;
+                    productsGrid.appendChild(cardDiv);
+                });
+            }
+
+            renderCloudTabs();
+            renderCloudDesc();
+            renderCategoryTabs();
+            renderProducts();
+            renderDiscountAndLink(); // 初始化时渲染一次折扣标签和链接
+        });
+    </script>
+</body>
+</html>

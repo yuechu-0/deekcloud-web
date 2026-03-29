@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeekCloud - 大模型API专区</title>
-    <link rel="icon" href="https://www.deekcloud.com/favicon.ico">
+    <link rel="icon" href="images/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -57,7 +57,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                <div class="flex-shrink-0 flex items-center cursor-pointer">
-                    <img src="https://www.deekcloud.com/static/svg/logo.svg" 
+                    <img src="images/logo.svg" 
                         alt="DeekCloud Logo" 
                         class="w-auto object-contain"
                         style="height: clamp(10px, 5vw, 20px);">
@@ -66,9 +66,8 @@
                 <div class="hidden md:flex space-x-8 h-full">
                     <a href="index.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300">首页</a>
                     <a href="api.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-primary text-sm font-medium text-primary transition-all duration-300">大模型API</a>
-                    <a href="#" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300">产品与方案</a>
-                    <a href="#" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300">常见问题</a>
-                    <a href="#" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300">关于我们</a>
+                    <a href="products.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300">产品与方案</a>
+                    <a href="question.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300">常见问题</a>
                 </div>
                 
                 <div class="hidden md:flex items-center space-x-2 text-primary font-semibold">
@@ -89,18 +88,20 @@
                     </div>
                     <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight leading-tight">
                         全球顶尖大模型 <br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-primary">原生API接入</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-primary">官网API接入</span>
                     </h1>
                     <p class="text-gray-600 text-base md:text-lg mb-8 leading-relaxed">
-                        官方品质，渠道底价。高并发、低延迟，一行代码平滑迁移。<br>专注业务创新，基础设施交给我们。
+                        官方品质，渠道底价。高并发、低延迟，一行代码平滑迁移。
                     </p>
                     <div class="flex space-x-4">
+                        <a href="https://t.me/deekcloud" target="_blank" class="flex flex-col items-center group">
                         <button class="px-8 py-3.5 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-full shadow-lg shadow-purple-500/30 hover:shadow-xl hover:scale-105 transition-all duration-300">
-                            获取专属密钥
+                            获取专属优惠
                         </button>
-                        <button class="px-8 py-3.5 bg-white text-gray-700 font-medium rounded-full shadow-sm hover:shadow-md border border-gray-200 hover:border-gray-300 transition-all duration-300">
+                        </a>
+                        <!-- <button class="px-8 py-3.5 bg-white text-gray-700 font-medium rounded-full shadow-sm hover:shadow-md border border-gray-200 hover:border-gray-300 transition-all duration-300">
                             查看开发文档
-                        </button>
+                        </button> -->
                     </div>
                 </div>
 
@@ -221,20 +222,19 @@
                     <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
                         <div>
                             <div class="flex items-center justify-between mb-4">
-                                <div class="w-10 h-10 bg-orange-50 text-orange-500 rounded-lg flex items-center justify-center font-bold text-xl border border-orange-100">C</div>
-                                <span class="bg-emerald-50 text-emerald-500 text-[10px] font-bold px-2 py-1 rounded-full border border-emerald-100">极速响应</span>
+                                <div class="w-10 h-10 bg-teal-50 text-teal-600 rounded-lg flex items-center justify-center font-bold text-xl border border-teal-100">O</div>
+                                <span class="bg-green-50 text-green-500 text-[10px] font-bold px-2 py-1 rounded-full border border-green-100">全能旗舰</span>
                             </div>
-                            <h3 class="text-lg font-bold text-gray-800 mb-1">Claude 3.5 Sonnet</h3>
-                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">速度与智能的完美平衡，日常编码、文本创作与企业自动化首选。</p>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">GPT-4o</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">OpenAI 最新旗舰模型，多模态能力出众，响应速度极快，行业标准的奠基者。</p>
                             
                             <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
                                 <div class="flex justify-between mb-2">
                                     <span class="text-gray-400">官方指导价</span>
-                                    <span class="text-gray-500 line-through">$3.00 / 1M tokens</span>
+                                    <span class="text-gray-500 line-through">$5.00 / 1M tokens</span>
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-600 font-medium">代理特惠价</span>
-                                    <!-- <span class="text-secondary font-bold text-base">$1.90 <span class="text-[10px] text-gray-400 font-normal">/ 1M</span></span> -->
                                     <span class="text-secondary font-bold text-base">9折起</span> 
                                 </div>
                             </div>
@@ -257,19 +257,15 @@
                         <div>
                             <div class="flex items-center justify-between mb-4">
                                 <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center font-bold text-xl border border-blue-100">D</div>
-                                <span class="bg-red-50 text-red-500 text-[10px] font-bold px-2 py-1 rounded-full border border-red-100">国产之光</span>
+                                <span class="bg-red-50 text-red-500 text-[10px] font-bold px-2 py-1 rounded-full border border-red-100">代码/数学顶配</span>
                             </div>
-                            <h3 class="text-lg font-bold text-gray-800 mb-1">DeepSeek V3 / R1</h3>
-                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">开源界的最强王者，代码与数学能力顶配，极致性价比之选。</p>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">DeepSeek (深度求索)</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">开源界的最强王者，V3/R1 模型在代码与数学推理能力上表现卓越，极致性价比之选。</p>
                             
                             <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-gray-400">官方指导价</span>
-                                    <span class="text-gray-500 line-through">¥2.00 / 1M tokens</span>
-                                </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-600 font-medium">代理特惠价</span>
-                                    <span class="text-primary font-bold text-base">¥1.20 <span class="text-[10px] text-gray-400 font-normal">/ 1M</span></span>
+                                    <span class="text-primary font-bold text-base">优惠低至 9 折</span>
                                 </div>
                             </div>
                         </div>
@@ -281,20 +277,58 @@
                     <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
                         <div>
                             <div class="flex items-center justify-between mb-4">
-                                <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center font-bold text-xl border border-indigo-100">Z</div>
-                                <span class="bg-indigo-50 text-indigo-500 text-[10px] font-bold px-2 py-1 rounded-full border border-indigo-100">企业推荐</span>
+                                <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center font-bold text-xl border border-indigo-100">豆</div>
+                                <span class="bg-indigo-50 text-indigo-500 text-[10px] font-bold px-2 py-1 rounded-full border border-indigo-100">字节跳动</span>
                             </div>
-                            <h3 class="text-lg font-bold text-gray-800 mb-1">智谱清言 GLM-4</h3>
-                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">全能型选手，中文语境理解极佳，适合智能客服与企业知识库接入。</p>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">Doubao (豆包)</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">基于火山引擎，响应极快，非常适合大规模高并发的智能问答与工具调用场景。</p>
                             
                             <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-gray-400">官方指导价</span>
-                                    <span class="text-gray-500 line-through">¥100.00 / 1M tokens</span>
-                                </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-600 font-medium">代理特惠价</span>
-                                    <span class="text-primary font-bold text-base">¥65.00 <span class="text-[10px] text-gray-400 font-normal">/ 1M</span></span>
+                                    <span class="text-primary font-bold text-base">优惠低至 9 折</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full py-2.5 bg-gray-50 text-gray-700 font-semibold text-sm rounded-xl group-hover:bg-gradient-to-r group-hover:from-secondary group-hover:to-primary group-hover:text-white transition-all duration-300 border border-gray-200 group-hover:border-transparent">
+                            立即调用
+                        </button>
+                    </div>
+
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-10 h-10 bg-orange-50 text-orange-600 rounded-lg flex items-center justify-center font-bold text-xl border border-orange-100">Q</div>
+                                <span class="bg-orange-50 text-orange-600 text-[10px] font-bold px-2 py-1 rounded-full border border-orange-100">阿里系开源</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">Qwen (通义千问)</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">全面的多模态能力，中文语境理解深厚，提供从小到大多种参数规模的模型选择。</p>
+                            
+                            <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 font-medium">代理特惠价</span>
+                                    <span class="text-primary font-bold text-base">优惠低至 9 折</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full py-2.5 bg-gray-50 text-gray-700 font-semibold text-sm rounded-xl group-hover:bg-gradient-to-r group-hover:from-secondary group-hover:to-primary group-hover:text-white transition-all duration-300 border border-gray-200 group-hover:border-transparent">
+                            立即调用
+                        </button>
+                    </div>
+
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-10 h-10 bg-sky-50 text-sky-600 rounded-lg flex items-center justify-center font-bold text-xl border border-sky-100">Z</div>
+                                <span class="bg-sky-50 text-sky-500 text-[10px] font-bold px-2 py-1 rounded-full border border-sky-100">企业级首选</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">智谱清言 GLM-4</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">全能型选手，逻辑严密，适合企业内部知识库搭建、长文档分析与智能Agent开发。</p>
+                            
+                            <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 font-medium">代理特惠价</span>
+                                    <span class="text-primary font-bold text-base">优惠低至 9 折</span>
                                 </div>
                             </div>
                         </div>
@@ -307,19 +341,15 @@
                         <div>
                             <div class="flex items-center justify-between mb-4">
                                 <div class="w-10 h-10 bg-zinc-100 text-zinc-800 rounded-lg flex items-center justify-center font-bold text-xl border border-zinc-200">K</div>
-                                <span class="bg-zinc-100 text-zinc-600 text-[10px] font-bold px-2 py-1 rounded-full border border-zinc-200">超长文本</span>
+                                <span class="bg-zinc-100 text-zinc-600 text-[10px] font-bold px-2 py-1 rounded-full border border-zinc-200">超长文本专家</span>
                             </div>
-                            <h3 class="text-lg font-bold text-gray-800 mb-1">Kimi (Moonshot)</h3>
-                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">最高支持 200万字 无损上下文，财报分析、长篇小说设定神器。</p>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">Kimi (月之暗面)</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">支持高达 200万字 无损上下文，财报分析、长篇材料总结与小说设定的绝对利器。</p>
                             
                             <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-gray-400">官方指导价</span>
-                                    <span class="text-gray-500 line-through">¥24.00 / 1M tokens</span>
-                                </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-600 font-medium">代理特惠价</span>
-                                    <span class="text-primary font-bold text-base">¥15.80 <span class="text-[10px] text-gray-400 font-normal">/ 1M</span></span>
+                                    <span class="text-primary font-bold text-base">优惠低至 9 折</span>
                                 </div>
                             </div>
                         </div>
@@ -327,6 +357,48 @@
                             立即调用
                         </button>
                     </div>
+
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-10 h-10 bg-cyan-50 text-cyan-600 rounded-lg flex items-center justify-center font-bold text-xl border border-cyan-100">H</div>
+                                <span class="bg-cyan-50 text-cyan-600 text-[10px] font-bold px-2 py-1 rounded-full border border-cyan-100">腾讯自研</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">腾讯混元</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">依托腾讯生态体系，在内容创作、图片生成与中文意图理解方面表现成熟稳定。</p>
+                            
+                            <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 font-medium">代理特惠价</span>
+                                    <span class="text-primary font-bold text-base">优惠低至 9 折</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full py-2.5 bg-gray-50 text-gray-700 font-semibold text-sm rounded-xl group-hover:bg-gradient-to-r group-hover:from-secondary group-hover:to-primary group-hover:text-white transition-all duration-300 border border-gray-200 group-hover:border-transparent">
+                            立即调用
+                        </button>
+                    </div>
+
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-10 h-10 bg-purple-50 text-purple-600 rounded-lg flex items-center justify-center font-bold text-xl border border-purple-100">M</div>
+                                <span class="bg-purple-50 text-purple-600 text-[10px] font-bold px-2 py-1 rounded-full border border-purple-100">拟人/语音极佳</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">MiniMax (海螺)</h3>
+                            <p class="text-xs text-gray-500 mb-5 leading-relaxed h-10">在语音合成(TTS)和拟人化对话角色扮演方面极具特色，适合泛娱乐社交与游戏NPC场景。</p>
+                            
+                            <div class="bg-gray-50/80 rounded-xl p-3 text-xs mb-6 border border-gray-100">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 font-medium">代理特惠价</span>
+                                    <span class="text-primary font-bold text-base">优惠低至 9 折</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full py-2.5 bg-gray-50 text-gray-700 font-semibold text-sm rounded-xl group-hover:bg-gradient-to-r group-hover:from-secondary group-hover:to-primary group-hover:text-white transition-all duration-300 border border-gray-200 group-hover:border-transparent">
+                            立即调用
+                        </button>
+                    </div>               
                 </div>
             </div>
         </div>
@@ -402,8 +474,8 @@ response = client.chat.completions.create(
                     <ul class="space-y-3">
                         <li><a href="index.html" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>首页</a></li>
                         <li><a href="api.html" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>大模型API</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>常见问题</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>关于我们</a></li>
+                        <li><a href="products.html" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>产品与方案</a></li>
+                        <li><a href="question.html" class="text-gray-400 hover:text-primary transition-colors text-sm flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>常见问题</a></li>                
                     </ul>
                 </div>
 
@@ -426,6 +498,70 @@ response = client.chat.completions.create(
             </div>
         </div>
     </footer>
+    
+    <div class="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center space-y-4 hidden md:flex">
+        <a href="https://t.me/deekcloud" target="_blank" class="relative group flex flex-col items-center hover:-translate-y-1 transition-transform duration-300 mb-1">
+            <div class="w-[52px] h-[52px] bg-white rounded-full shadow-[0_0_0_4px_white,0_4px_12px_rgba(55,174,226,0.3)] flex items-center justify-center relative z-10">
+                <svg class="w-[48px] h-[48px]" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="tgSidebarGrad" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#37AEE2"></stop>
+                            <stop offset="100%" stop-color="#1E96C8"></stop>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="12" cy="12" r="12" fill="url(#tgSidebarGrad)"></circle>
+                    <path d="M5.49 11.66l11.77-4.54c.54-.21 1.04.14.86.88l-2.01 9.49c-.15.68-.56.85-1.13.53l-3.07-2.26-1.48 1.43c-.16.16-.3.3-.61.3l.22-3.13 5.71-5.16c.25-.22-.05-.35-.39-.13l-7.06 4.44-3.04-.95c-.66-.21-.67-.66.14-.97z" fill="white"></path>
+                </svg>
+            </div>
+            <div class="absolute -bottom-2.5 bg-[#1E96C8] text-white text-[11px] font-bold px-2.5 py-0.5 rounded shadow-sm z-20 whitespace-nowrap">
+                联系客服
+            </div>
+        </a>
+
+        <div class="bg-[#F8FAFC]/95 backdrop-blur-md rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.06)] py-6 px-3 flex flex-col items-center space-y-6 border border-white">
+            
+            <a href="https://t.me/deekcloud" target="_blank" class="flex flex-col items-center group">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-[#25D366]/10 transition-colors duration-300">
+                    <svg class="w-[20px] h-[20px] text-[#25D366] group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 0C5.412 0 .046 5.365.046 11.986c0 2.115.552 4.167 1.6 5.986L.046 24l6.177-1.62c1.761.947 3.737 1.446 5.808 1.446 6.619 0 11.985-5.365 11.985-11.986S18.65 0 12.031 0zm.006 21.841c-1.789 0-3.538-.481-5.074-1.393l-.364-.216-3.77.989.998-3.676-.237-.377a9.985 9.985 0 0 1-1.528-5.334c0-5.523 4.494-10.017 10.017-10.017s10.016 4.494 10.016 10.017c0 5.522-4.493 10.017-10.016 10.017zm5.5-7.514c-.302-.151-1.787-.882-2.064-.984-.277-.101-.479-.151-.68.151-.202.302-.782.984-.959 1.185-.176.202-.353.227-.655.076-.302-.151-1.275-.47-2.428-1.503-.898-.806-1.504-1.801-1.68-2.103-.176-.302-.019-.465.132-.616.136-.136.302-.353.453-.529.151-.176.202-.302.302-.504.101-.202.05-.378-.025-.529-.076-.151-.68-1.638-.933-2.243-.245-.59-.496-.51-.68-.52-.176-.01-.378-.01-.579-.01-.202 0-.529.076-.806.378-.277.302-1.058 1.033-1.058 2.52s1.083 2.922 1.234 3.123c.151.202 2.13 3.25 5.158 4.556 2.051.884 2.763.958 3.518.882.85-.086 2.064-.844 2.355-1.659.29-.815.29-1.514.202-1.659-.088-.146-.315-.222-.617-.373z"/></svg>
+                </div>
+                <span class="text-[11px] text-gray-600 mt-0.5">WhatsApp</span>
+            </a>
+
+            <a href="https://t.me/deekcloud" target="_blank" class="flex flex-col items-center group">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-gray-200 transition-colors duration-300">
+                    <svg class="w-[16px] h-[16px] text-gray-900 group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </div>
+                <span class="text-[11px] text-gray-600 mt-0.5">X</span>
+            </a>
+
+            <a href="https://t.me/deekcloud" target="_blank" class="flex flex-col items-center group">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-[#0084FF]/10 transition-colors duration-300">
+                    <svg class="w-[20px] h-[20px] text-[#0084FF] group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.053 0 11.289c0 3.551 1.71 6.726 4.382 8.868v3.843l4.004-2.203c1.166.326 2.396.5 3.614.5 6.627 0 12-5.053 12-11.289S18.627 0 12 0zm1.096 15.088l-2.822-3.007-5.503 3.007 6.052-6.425 2.89 3.007 5.435-3.007-6.052 6.425z"/></svg>
+                </div>
+                <span class="text-[11px] text-gray-600 mt-0.5">Messenger</span>
+            </a>
+
+            <a href="https://t.me/deekcloud" target="_blank" class="flex flex-col items-center group">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-[#5865F2]/10 transition-colors duration-300">
+                    <svg class="w-[20px] h-[20px] text-[#5865F2] group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg>
+                </div>
+                <span class="text-[11px] text-gray-600 mt-0.5">Discord</span>
+            </a>
+
+            <a href="https://t.me/deekcloud" target="_blank" class="flex flex-col items-center group">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-[#00AFF0]/10 transition-colors duration-300">
+                    <svg class="w-[20px] h-[20px] text-[#00AFF0] group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24" fill-rule="evenodd" clip-rule="evenodd">
+                        <path d="M12.002 0c-1.303 0-2.529.256-3.648.742C7.295.277 6.183 0 4.992 0 2.238 0 0 2.238 0 4.992c0 1.19.277 2.302.742 3.36C.256 9.471 0 10.697 0 12.002c0 6.627 5.375 12.002 12.002 12.002 1.303 0 2.529-.256 3.648-.742 1.058.465 2.17.742 3.36.742 2.754 0 4.992-2.238 4.992-4.992 0-1.19-.277-2.302-.742-3.36.486-1.119.742-2.345.742-3.648C24.004 5.375 18.629 0 12.002 0zm0 5.48c1.353 0 2.551.34 3.593 1.02.774.524 1.077 1.446.732 2.279-.277.674-1.033 1.047-1.734.808-.415-.145-.733-.36-1.016-.547-.84-.55-1.758-.8-2.673-.8-1.594 0-2.731.812-2.731 1.932 0 1.022.68 1.516 2.356 1.968l1.393.385c2.613.727 4.144 1.889 4.144 3.996 0 2.65-2.279 4.604-5.59 4.604-1.725 0-3.355-.45-4.664-1.352-.777-.525-1.082-1.464-.73-2.302.268-.65 1.02-.994 1.697-.783.393.125.706.326.98.514.981.685 2.128.989 3.197.989 1.77 0 2.924-.763 2.924-1.956 0-1.023-.681-1.523-2.357-1.974l-1.394-.386c-2.61-.722-4.142-1.884-4.142-3.99 0-2.645 2.28-4.596 5.59-4.596z"/>
+                    </svg>
+                </div>
+                <span class="text-[11px] text-gray-600 mt-0.5">Skype</span>
+            </a>
+        </div>
+
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-11 h-11 bg-white/95 backdrop-blur-md rounded-full shadow-[0_4px_15px_rgb(0,0,0,0.06)] border border-gray-100 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-all duration-300 hover:-translate-y-1 mt-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" /></svg>
+        </button>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const copyBtn = document.getElementById('copy-btn');

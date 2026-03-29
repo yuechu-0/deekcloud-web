@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文档中心 - DeekCloud</title>
+    <link rel="icon" href="images/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                        secondary: '#8b5cf6',
+                        accent: '#ec4899',
+                        dark: '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob { animation: blob 15s infinite alternate ease-in-out; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+
+        /* 左侧菜单平滑过渡 */
+        .menu-item { transition: all 0.3s ease; }
+        
+        /* 折叠菜单过渡 */
+        .submenu-content {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .submenu-open .submenu-content {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .chevron { transition: transform 0.3s ease; }
+        .submenu-open .chevron { transform: rotate(180deg); }
+
+        /* 文档正文排版优化 */
+        .doc-content h2 { font-size: 1.25rem; font-weight: bold; color: #1f2937; margin-top: 2.5rem; margin-bottom: 1.25rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem;}
+        .doc-content h3 { font-size: 1.1rem; font-weight: 600; color: #374151; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .doc-content h4 { font-size: 1rem; font-weight: 600; color: #4b5563; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+        .doc-content p { color: #4b5563; line-height: 1.75; margin-bottom: 1rem; font-size: 0.95rem; }
+        .doc-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4b5563; }
+        .doc-content li { margin-bottom: 0.5rem; font-size: 0.95rem; line-height: 1.6;}
+        
+        /* 强制取消下划线 */
+        .doc-content a { color: #4f46e5; text-decoration: none !important; transition: color 0.2s; }
+        .doc-content a:hover { color: #3730a3; text-decoration: none !important; }
+        
+        /* 玻璃态通用类 */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="text-gray-800 font-sans antialiased relative flex flex-col min-h-screen bg-[#f8fafc]">
+
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-300/20 mix-blend-multiply filter blur-[100px] animate-blob"></div>
+        <div class="absolute top-[20%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-purple-300/20 mix-blend-multiply filter blur-[100px] animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-[-10%] left-[20%] w-[60vw] h-[60vw] rounded-full bg-indigo-200/30 mix-blend-multiply filter blur-[100px] animate-blob animation-delay-4000"></div>
+    </div>
+
+    <nav class="sticky top-0 z-50 bg-white/60 backdrop-blur-md border-b border-white/50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.location.href='index.html'">
+                    <img src="images/logo.svg" alt="DeekCloud Logo" class="w-auto object-contain" style="height: clamp(10px, 5vw, 20px);">
+                </div>
+                
+                <div class="hidden md:flex space-x-8 h-full">
+                    <a href="index.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300" style="text-decoration: none;">首页</a>
+                    <a href="api.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300" style="text-decoration: none;">大模型API</a>
+                    <a href="products.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300" style="text-decoration: none;">产品与方案</a>
+                    <a href="question.html" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all duration-300" style="text-decoration: none;">常见问题</a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-2 text-primary font-semibold">
+                    <svg fill="none" height="32" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg" style="flex: 0 0 auto; line-height: 1;"><title>Telegram</title><defs><linearGradient id="tgGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#37AEE2"></stop><stop offset="100%" stop-color="#1E96C8"></stop></linearGradient></defs><circle cx="12" cy="12" r="12" fill="url(#tgGradient)"></circle><path d="M5.49 11.66l11.77-4.54c.54-.21 1.04.14.86.88l-2.01 9.49c-.15.68-.56.85-1.13.53l-3.07-2.26-1.48 1.43c-.16.16-.3.3-.61.3l.22-3.13 5.71-5.16c.25-.22-.05-.35-.39-.13l-7.06 4.44-3.04-.95c-.66-.21-.67-.66.14-.97z" fill="white"></path></svg>
+                    <span>@deekcloud</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col md:flex-row gap-6 mt-8 mb-20 relative z-10">
+        
+        <aside class="w-full md:w-64 flex-shrink-0 glass-panel rounded-2xl p-4 shadow-sm h-fit sticky top-24">
+            <div class="mb-6 px-3">
+                <h2 class="text-xl font-bold text-gray-800">文档中心</h2>
+            </div>
+            <nav class="space-y-1" id="sidebar-nav">
+                <a href="#home" class="menu-item group flex items-center px-3 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-blue-50/50 hover:text-primary" data-hash="home">
+                    <svg class="flex-shrink-0 mr-3 h-5 w-5 text-gray-500 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span class="truncate">文档首页</span>
+                </a>
+
+                <div class="submenu-container submenu-open pt-2">
+                    <button class="w-full flex items-center justify-between px-3 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-blue-50/50 transition-colors focus:outline-none" onclick="toggleSubmenu(this)">
+                        <div class="flex items-center">
+                            <svg class="flex-shrink-0 mr-3 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                            <span>协议文档</span>
+                        </div>
+                        <svg class="chevron h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="submenu-content">
+                        <div class="pl-5 pr-2 py-1 space-y-1">
+                            <a href="#privacy" class="menu-item group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-gray-500 hover:text-primary" data-hash="privacy">
+                                <svg class="flex-shrink-0 mr-3 h-[18px] w-[18px] text-gray-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                <span class="truncate">隐私协议</span>
+                            </a>
+                            <a href="#user-agreement" class="menu-item group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-gray-500 hover:text-primary" data-hash="user-agreement">
+                                <svg class="flex-shrink-0 mr-3 h-[18px] w-[18px] text-gray-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                <span class="truncate">用户协议</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submenu-container submenu-open pt-2">
+                    <button class="w-full flex items-center justify-between px-3 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-blue-50/50 transition-colors focus:outline-none" onclick="toggleSubmenu(this)">
+                        <div class="flex items-center">
+                            <svg class="flex-shrink-0 mr-3 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                            <span>云厂商相关</span>
+                        </div>
+                        <svg class="chevron h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="submenu-content">
+                        <div class="pl-5 pr-2 py-1 space-y-1">
+                            <a href="#cloud-console" class="menu-item group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-gray-500 hover:text-primary" data-hash="cloud-console">
+                                <svg class="flex-shrink-0 mr-3 h-[18px] w-[18px] text-gray-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                                <span class="truncate">各云厂商控制台索引</span>
+                            </a>
+                            <a href="#cloud-privacy" class="menu-item group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-gray-500 hover:text-primary" data-hash="cloud-privacy">
+                                <svg class="flex-shrink-0 mr-3 h-[18px] w-[18px] text-gray-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                <span class="truncate">云厂商隐私政策</span>
+                            </a>
+                            <a href="#cloud-service-terms" class="menu-item group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-gray-500 hover:text-primary" data-hash="cloud-service-terms">
+                                <svg class="flex-shrink-0 mr-3 h-[18px] w-[18px] text-gray-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <span class="truncate">云厂商服务协议</span>
+                            </a>
+                            <a href="#cloud-sla" class="menu-item group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-gray-500 hover:text-primary" data-hash="cloud-sla">
+                                <svg class="flex-shrink-0 mr-3 h-[18px] w-[18px] text-gray-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                                <span class="truncate">云厂商服务等级协议</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="flex-1 glass-panel rounded-2xl shadow-sm min-h-[600px] flex flex-col bg-white">
+            <div id="doc-body" class="p-8 md:p-12 doc-content flex-1 bg-white/50 rounded-2xl overflow-x-auto">
+                </div>
+        </main>
+    </div>
+
+    <script>
+        // === Toast 提示功能 ===
+        function showToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-24 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg text-white text-sm z-[9999] transition-all duration-300 opacity-0 translate-y-[-20px] flex items-center ${isError ? 'bg-red-500' : 'bg-emerald-500'}`;
+            
+            const iconSvg = isError 
+                ? `<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+                : `<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+            
+            toast.innerHTML = `${iconSvg} <span>${message}</span>`;
+            document.body.appendChild(toast);
+
+            // Animate in
+            requestAnimationFrame(() => {
+                toast.classList.remove('opacity-0', 'translate-y-[-20px]');
+                toast.classList.add('opacity-100', 'translate-y-0');
+            });
+
+            // Remove after 2.5 seconds
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-[-20px]');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('链接已复制到剪贴板');
+                }).catch(err => {
+                    showToast('复制失败', true);
+                    console.error('Failed to copy text: ', err);
+                });
+            } else {
+                // 回退方案
+                let textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-999999px";
+                textArea.style.top = "-999999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast('链接已复制到剪贴板');
+                } catch (err) {
+                    showToast('复制失败', true);
+                }
+                textArea.remove();
+            }
+        }
+
+        // === 生成表格辅助函数 ===
+        function generateTable(title, data) {
+            let rows = data.map(item => `
+                <tr class="hover:bg-blue-50/20 transition-colors border-b border-gray-100 last:border-0">
+                    <td class="py-4 px-6 text-[14px] text-gray-600 flex items-center min-w-[150px]">
+                        <svg class="w-[15px] h-[15px] mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                        ${item.name}
+                    </td>
+                    <td class="py-4 px-6 text-[14px]">
+                        <div class="flex items-center justify-between min-w-[300px]">
+                            <a href="${item.url}" target="_blank" class="text-blue-500 hover:text-blue-600 transition-colors truncate max-w-[400px]" style="text-decoration:none;">
+                                ${item.url}
+                            </a>
+                            <button onclick="copyToClipboard('${item.url}')" class="ml-4 p-1.5 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50 hover:text-primary transition-all focus:outline-none focus:ring-2 focus:ring-primary/20 flex-shrink-0" title="复制链接">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+
+            return `
+                <h2 class="text-xl font-bold mt-10 mb-5 !border-none !pb-0">${title}</h2>
+                <div class="border border-gray-100 rounded-lg overflow-x-auto bg-white mb-6">
+                    <table class="w-full text-left border-collapse min-w-[600px]">
+                        <thead>
+                            <tr class="bg-[#f8fafc] border-b border-gray-100">
+                                <th class="py-3 px-6 text-sm font-semibold text-gray-500 w-1/3">名称</th>
+                                <th class="py-3 px-6 text-sm font-semibold text-gray-500">链接</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        const cloudData = {
+            aliyun: [
+                { name: "阿里云国际版", url: { index: "https://home.console.alibabacloud.com", privacy: "https://www.alibabacloud.com/help/zh/legal/latest/privacy-policy", terms: "https://www.alibabacloud.com/help/en/advisor/latest/terms-of-service", sla: "https://www.alibabacloud.com/help/en/legal/latest/product-sla" } },
+                { name: "阿里云中国站", url: { index: "https://homenew.console.aliyun.com", privacy: "https://help.aliyun.com/document_detail/2705226.html", terms: "https://help.aliyun.com/document_detail/67314.html", sla: "https://help.aliyun.com/document_detail/56773.html" } }
+            ],
+            tencent: [
+                { name: "腾讯云国际版", url: { index: "https://console.tencentcloud.com", privacy: "https://www.tencentcloud.com/document/product/301/17345", terms: "https://www.tencentcloud.com/document/product/301/9248", sla: "https://www.tencentcloud.com/document/product/301/12905" } },
+                { name: "腾讯云中国站", url: { index: "https://console.cloud.tencent.com", privacy: "https://cloud.tencent.com/document/product/301/11470", terms: "https://cloud.tencent.com/document/product/301/1967", sla: "https://cloud.tencent.com/document/product/301/103169" } }
+            ],
+            huawei: [
+                { name: "华为云国际版", url: { index: "https://console-intl.huaweicloud.com", privacy: "https://www.huaweicloud.com/intl/en-us/securecenter/privacy.html", terms: "https://www.huaweicloud.com/intl/en-us/declaration-sg/sa_cua.html", sla: "https://www.huaweicloud.com/intl/en-us/declaration/sla.html" } },
+                { name: "华为云中国站", url: { index: "https://console.huaweicloud.com", privacy: "https://www.huaweicloud.com/declaration/sa_prp.html", terms: "https://www.huaweicloud.com/declaration/hcpn_eula_computing.html", sla: "https://www.huaweicloud.com/declaration/sla.html" } }
+            ],
+            intl: [
+                { name: "Google Cloud", url: { index: "https://console.cloud.google.com", privacy: "https://cloud.google.com/terms/cloud-privacy-notice", terms: "https://cloud.google.com/terms/", sla: "https://cloud.google.com/terms/sla" } },
+                { name: "AWS", url: { index: "https://aws.amazon.com/console", privacy: "https://aws.amazon.com/cn/privacy/", terms: "https://aws.amazon.com/cn/privacy/", sla: "https://aws.amazon.com/cn/legal/service-level-agreements/" } }
+            ]
+        };
+
+        // === 数据源配置 ===
+        const docData = {
+            'home': {
+                content: `
+                    <div class="mb-8">
+                        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight mb-2">文档中心</h1>
+                    </div>
+                    
+                    <div class="bg-blue-50/40 border border-blue-100 rounded-xl p-6 mb-10 flex items-start space-x-4">
+                        <div class="p-2 bg-white rounded-full shadow-sm text-primary flex-shrink-0 mt-0.5">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-gray-900 !mt-0 !mb-1.5">欢迎访问文档中心</h3>
+                            <p class="!mb-0 text-sm text-gray-600">您可以在这里查找与 DeekCloud 产品和服务相关的所有文档资料。请从左侧导航栏选择您需要的文档类别。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <a href="#privacy" class="block p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-primary/30 transition-all group">
+                            <h4 class="font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors text-lg">隐私协议</h4>
+                            <p class="text-sm text-gray-500 group-hover:text-primary/80 transition-colors">了解我们如何收集、使用和保护您的个人信息</p>
+                        </a>
+                        <a href="#user-agreement" class="block p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-primary/30 transition-all group">
+                            <h4 class="font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors text-lg">用户协议</h4>
+                            <p class="text-sm text-gray-500 group-hover:text-primary/80 transition-colors">查看使用我们服务的条款和条件</p>
+                        </a>
+                    </div>
+                `
+            },
+            'privacy': {
+                content: `
+                    <h1 class="text-3xl font-bold text-gray-900 mb-4">隐私政策</h1>
+                    <p class="text-sm text-gray-500 mb-8 flex space-x-6"><span class="bg-gray-100 px-3 py-1 rounded-md">更新日期：2025年11月30日</span></p> 
+                    <p><span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-md">生效日期：2025年5月5日</span></p>
+                    
+                    <div class="bg-blue-50/50 border-l-4 border-primary p-4 rounded-r-lg mb-8 text-sm text-gray-700">
+                        <strong class="text-gray-900 block mb-1">提示</strong>
+                        尊敬的DeekCloud用户，我们深知个人信息对您的重要性，本平台致力于保护您的隐私，并确保您在使用服务时享有充分的个人信息保护权。依据适用法律法规，我们制定了本《隐私政策》（以下简称"本政策"）。请务必仔细阅读，特别是有关个人信息的收集、使用、存储、共享及保护的条款。
+                    </div>
+
+                    <h2>一、本政策适用范围</h2>
+                    <h3>1.1 服务范围</h3>
+                    <p>本政策适用于您通过本平台使用的所有服务，包括但不限于注册、充值、获取的云服务等。使用平台服务即表示您同意按照本政策的规定处理个人信息。</p>
+
+                    <h3>1.2 责任边界</h3>
+                    <p>平台为独立的第三方代理服务商，仅提供原厂云服务的折扣优惠信息、账号管理等服务。您通过平台获取的云服务实际由相应的云服务提供商（下称"原厂"）包括但不限于阿里云、阿里云国际版（Alibaba Cloud）、腾讯云、腾讯云国际版（Tencent Cloud）、华为云、华为云国际版、Amazon Web Services（AWS）、Google Cloud Platform（GCP）、Microsoft Azure 等直接提供，平台不会接触、存储或处理这些数据，包括但不限于通过API接口、日志抓取、数据库镜像等任何技术手段获取相关数据。</p>
+                    <p>上述原厂的隐私政策及数据处理规则独立于本政策，需由您另行查阅并遵守。</p>
+
+                    <h3>1.3 免责条款</h3>
+                    <p>本政策不适用于原厂服务或其他第三方提供的产品或服务，您应自行确认并遵守该等第三方其隐私条款，平台不对第三方隐私政策内容及执行承担任何形式的担保或连带责任。</p>
+                    <p>对于您自行选择使用的原厂商或其他第三方产品服务，其隐私保护责任完全由该第三方独立承担，平台不承担任何因第三方服务引发的数据安全责任。</p>
+
+                    <h2>二、我们如何收集和使用您的个人信息</h2>
+                    <h3>（一）基本信息的收集与用途</h3>
+                    <h4>2.1 账号注册与实名认证</h4>
+                    <p>注册信息：姓名、手机号码、电子邮箱、身份证件号码（如适用）、企业信息（如适用）。</p>
+                    <p>用途：完成原厂账号开通、为履行平台服务合同必备的反洗钱合规义务所需的身份审核及平台服务身份验证。</p>
+                    <p>敏感信息保护：平台承诺仅将敏感信息用于履行反洗钱义务及实名认证目的，并采用加密技术保护。未经您的单独同意，不会用于其他用途（如营销、第三方合作）。</p>
+                    <p>拒绝后果：若拒绝提供必要信息，将无法使用平台核心功能。</p>
+                    
+                    <h4>2.2 交易与充值</h4>
+                    <p>收集信息：充值记录、订单号、支付账号（如银行卡号、第三方支付凭证）。</p>
+                    <p>用途：处理资金流转、开具发票及争议解决。</p>
+
+                    <h4>2.3 客户服务</h4>
+                    <p>留存沟通记录（如工单、通话录音）及问题反馈内容，用于服务质量改进，不会用于市场营销或其他未经授权的用途。</p>
+                    <p>服务使用记录：包括您通过本平台所开通的原厂服务信息（如AWS、阿里云等云服务厂商的账号信息）用于分析您的使用习惯，优化用户体验，提高服务质量，如：在去标识化处理后，分析您开通的云服务类型以推荐更匹配的套餐（平台不采集也不处理您在所使用云服务中上传或产生的任何业务数据内容）。分析结果的知识产权归属于平台。</p>
+
+                    <h3>（二）附加信息的收集与用途</h3>
+                    <h4>2.4 安全与风控</h4>
+                    <p>自动收集：设备信息（IP地址、设备型号、操作系统）、日志数据（访问时间、操作行为）。</p>
+                    <p>用途：检测异常登录、防范欺诈风险。</p>
+
+                    <h3>（三）无需授权的情形</h3>
+                    <h4>2.5 根据法律法规，平台可能在以下情形处理信息无需征得同意：</h4>
+                    <ul>
+                        <li>根据法律法规、行政或司法机关的强制要求披露信息（包括但不限于配合监管检查、行政执法等）。</li>
+                        <li>为保障平台及其用户的合法权益、公共安全或他人生命财产安全所必要的披露。</li>
+                        <li>处理合法公开的信息（如企业公示信息）。</li>
+                        <li>基于学术研究或公共利益需要的数据处理，在已进行匿名化处理且不可复原的前提下，无需另行取得授权。</li>
+                        <li>防范诈骗、欺诈等风险时。</li>
+                    </ul>
+
+                    <h4>2.6 储存位置：</h4>
+                    <p>个人信息储存于中国境内服务器。</p>
+                    
+                    <h4>2.7 储存期限：</h4>
+                    <ul>
+                        <li>存储期限仅限于实现本政策所述目的所需时间（如账户存续期间），除非法律要求更长期限。不同类别的信息可能依据业务需要和法律规定保存不同期限。</li>
+                        <li>账户存续期间内保存账户注册信息；交易记录、合同、订单等依法需留存5年，超期后删除或匿名化处理。</li>
+                        <li>若平台停止运营，将及时删除或匿名化处理所持个人信息，并通过公告或邮件通知您。</li>
+                    </ul>
+
+                    <h2>三、我们如何共享、转让您的个人信息</h2>
+                    <h3>3.1 委托处理</h3>
+                    <ul>
+                        <li>平台可能将您的个人信息提供给第三方服务提供商（如支付机构、客服系统服务商），仅限于支付结算、身份核验等必要操作。</li>
+                        <li>平台会要求上述第三方遵守严格的数据保护义务，不得超范围使用您的个人信息，并确保您的个人信息安全。</li>
+                        <li>第三方服务商违反数据保护义务的，平台在尽到供应商合规审查义务的前提下，可豁免因此产生的法律责任。</li>
+                    </ul>
+
+                    <h3>3.2 对外共享</h3>
+                    <p><strong>共享原则：</strong>不共享您的个人信息，除非获得您的明示同意或法律法规另有规定。对于涉及生物识别、金融账户等敏感个人信息的共享，除法律法规另有规定外，必须取得用户的单独书面同意。</p>
+                    <p><strong>共享场景：</strong></p>
+                    <ul>
+                        <li><strong>云服务厂商：</strong>为协助开通原厂云服务，需向原厂提供必要注册信息，仅限于用户首次开通服务所必需的基础注册信息，且每次共享均需用户单独授权。</li>
+                        <li><strong>支付机构：</strong>为完成订单支付、退款及资金结算，我们可能与经授权的支付服务提供商共享必要的交易信息，包括支付账号、订单金额、验证信息等。</li>
+                        <li><strong>运营支持：</strong>我们可能委托第三方提供呼叫中心、票据处理、系统运维、安全监测等服务，并在必要范围内共享信息，以保障服务质量和运营效率。</li>
+                    </ul>
+
+                    <h3>3.3 第三方转让</h3>
+                    <p><strong>转让原则：</strong>原则上不转让个人信息。</p>
+                    <p><strong>例外情形：</strong>公司合并、收购、破产清算等涉及控制权变更时，个人信息可能作为资产被转让。若发生此类情况，平台应在控制权变更前30日通过官网公告及注册邮箱通知用户，用户有权在收到通知后15日内选择注销账户并要求删除信息。</p>
+
+                    <h2>四、个人信息出境（跨境传输）</h2>
+                    <h3>4.1 用户合规义务</h3>
+                    <ul>
+                        <li>使用国际云厂商的服务（如AWS、阿里云国际站等），可能涉及数据跨境传输。</li>
+                        <li>您需遵守国家有关个人信息出境的法律要求，完成必要的审批或备案手续。</li>
+                        <li>用户应自行完成数据出境合规手续，平台可在法律法规允许范围内提供合规指引，但不构成法律意见或承诺，亦不承担审批义务。</li>
+                    </ul>
+
+                    <h3>4.2 违规后果与平台措施</h3>
+                    <p><strong>用户责任：</strong>未经合规审批，不得通过平台开通的境外云账户对外提供中国境内个人信息。</p>
+                    <p><strong>平台措施：</strong>若发现用户违反规定，平台有权立即暂停相关服务并保留要求用户提供合规证明文件的权利。</p>
+                    <p><strong>数据保护承诺：</strong>平台仅向原厂传输账号开通所需的必要信息，不接触您在境外云服务中产生的业务数据。</p>
+
+                    <h2>五、信息保护措施</h2>
+                    <h3>5.1 技术与管理措施</h3>
+                    <ul>
+                        <li>采用SSL/TLS加密技术保护数据传输安全。</li>
+                        <li>采用符合行业标准的安全加密技术存储用户密码以及资料。</li>
+                        <li>定期渗透测试、根据数据敏感程度分类管理制度、员工隐私培训、仅授予工作人员完成工作所需的最低权限。</li>
+                    </ul>
+
+                    <h2>六、您如何管理个人信息</h2>
+                    <p>您有权在平台技术服务允许的范围内查阅、更正、要求删除或注销账户。注销后除法律法规规定外，我们将停止提供服务并删除相关个人信息。</p>
+                    
+                    <h2>七、联系我们</h2>
+                    <p>如果您对本政策有任何问题，请通过以下方式联系我们（15个工作日内处理）：</p>
+                    <ul>
+                        <li>客服电话：4006-737-595</li>
+                        <li>电子邮件：info@deekcloud.com</li>
+                        <li>在线客服：www.deekcloud.com</li>
+                        <li>个人信息保护负责人邮箱：junson@deekcloud.com</li>
+                    </ul>
+                `
+            },
+            'user-agreement': {
+                content: `
+                    <h1 class="text-3xl font-bold text-gray-900 mb-4">DeekCloud 用户服务协议</h1>
+                    <p class="text-sm text-gray-500 mb-8 flex space-x-6"><span class="bg-gray-100 px-3 py-1 rounded-md">更新日期：2025年12月21日</span></p>
+                    <p><span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-md">生效日期：2025年5月1日</span></p>
+
+                    <div class="bg-blue-50/50 border-l-4 border-primary p-4 rounded-r-lg mb-8 text-sm text-gray-700">
+                        <strong class="text-gray-900 block mb-1">提示条款</strong>
+                        欢迎您使用DeekCloud产品及服务！<br>
+                        为使用本服务，您应当阅读并遵守由您与喜云（广东）云计算服务有限公司（简称"我们"或"喜云公司"）订立的《DeekCloud 用户服务协议》（简称"本协议"）。<br><br>
+                        请您务必审慎阅读、充分理解本协议全部条款内容，特别是<strong>免除或者减轻我们责任、排除或者限制您的权利以及争议解决等与您有重大利害关系的条款</strong>，该类条款将可能以加粗、下划线或重要标识等合理方式提示您注意。<br><br>
+                        您通过 DeekCloud 注册、使用服务或点击同意本协议的行为，视为您已阅读、理解并同意本协议及其更新版本，本协议及其更新版本自用户勾选同意并完成身份验证时生效，电子文本与纸质文本具有同等法律效力。如果您对本协议条款有任何疑问、投诉、意见和建议，欢迎与我们沟通反馈。
+                    </div>
+
+                    <h2>一、定义与角色说明</h2>
+                    <h3>1.1 平台定位</h3>
+                    <p>DeekCloud为独立第三方代理服务平台，非AWS、腾讯云、阿里云、华为云、Google Cloud等云服务厂商（以下简称"原厂"）的官方机构或关联公司，双方为商业合作关系。用户通过本平台获取的云服务由相应原厂直接提供，平台仅作为代理协助用户与原厂建立服务关系。</p>
+                    
+                    <h3>1.2 服务范围</h3>
+                    <p>平台提供原厂账号开通、在线充值、优惠活动及多通道支付服务，不涉及用户云端资源管理、数据操作或技术支持。</p>
+
+                    <h3>1.3 用户定义</h3>
+                    <p>用户为通过本平台注册或使用服务的年满18周岁的成年个人/企业，须具备完全民事行为能力，并接受本协议及原厂服务条款约束。</p>
+
+                    <h3>1.4 原厂（云服务厂商）</h3>
+                    <p>包括但不限于阿里云、阿里云国际版（Alibaba Cloud）、腾讯云、腾讯云国际版（Tencent Cloud）、华为云、华为云国际版、Amazon Web Services（AWS）、Google Cloud Platform (GCP)、Microsoft Azure（Azure）等。</p>
+
+                    <h2>二、服务内容与权限边界</h2>
+                    <h3>2.1 账号开通</h3>
+                    <p>用户可通过本平台自助开通原厂账号，平台仅提供注册入口及信息初审，账号最终激活需经原厂实名认证及合规审查。平台严格遵守用户信息管理规定，不存储或管理用户在原厂控制台的登录凭证及敏感数据，确保用户信息的安全性和隐私性。用户提供虚假、过期或他人身份信息，或未通过原厂实名认证的，平台有权不予注册或随时终止服务，相关费用不予退回，并可将相关情况上报监管部门/原厂（以履行法定义务）。</p>
+                    <p>根据各地区国家相关法律法规，用户需按照原厂政策提供真实身份信息（包括但不限于个人姓名、身份证号码、联系方式，或企业名称、营业执照、法定代表人信息等）。本协议项下所有通知应以用户注册邮箱、站内信或经实名认证的联系电话为载体进行送达，采用电子送达方式的，进入对方数据电文接收系统即视为送达。用户信息变更需在三个工作日内更新，否则不利后果由用户自行承担。</p>
+
+                    <h3>2.2 充值与资源分配</h3>
+                    <p>用户充值款项将分配至对应原厂账户，到账时间以原厂系统记录为准。建议用户在充值后及时确认，如遇异常需通过平台系统提交文字说明及支付凭证，并在 24 小时内反馈。用户提交完整充值凭证后，平台应于72小时内启动核查程序，并通过在线聊天软件或者邮件实时更新处理进展，逾期未解决的应先行退还争议金额。用户因自身操作失误导致充值错误的，应在原厂系统进行处理，平台仅提供信息转递服务且不承诺处理结果。 逾期未到账应立即中止操作并联系客服（原厂控制台直达链接列表），平台可以协助用户对账，并留存沟通记录备查。</p>
+                    <p>资源管理权限：用户需自行登录原厂控制台完成资源配置、权限设置及服务启用，平台技术上不具有且永不以任何形式获取操作用户云端资源的系统权限。</p>
+
+                    <h3>2.3 数据隐私与安全</h3>
+                    <h4>2.3.1 跨境传输规则</h4>
+                    <ul>
+                        <li>中国境内用户向境外云厂商传输数据，用户需自行确保遵守所有适用的个人信息出境法律程序，平台不承担审批义务，仅在法律法规允许范围内提供一般性合规指引。用户未经依法完成必要的跨境数据合规手续，不得将中国境内的个人信息通过平台开通的境外云账户对外提供，平台对此不承担任何协助义务，但可在法律法规允许范围内提供一般性的合规指引。平台有权在知悉用户可能违反数据出境规定时暂停相关服务。</li>
+                        <li>用户违反数据安全义务时，平台有权要求其提供书面整改报告并经第三方专业机构确认合规后方可恢复服务。</li>
+                        <li>用户违反数据出境安全评估、个人信息出境标准合同等跨境传输规定的，除应当立即停止违约行为外，还须赔偿平台因此遭受的全部损失，包括但不限于：行政机关作出的罚款、没收违法所得等行政处罚；监管检查产生的合规审计费用；平台为应对监管调查支付的律师费、公证费等合理支出；数据回流产生的技术处理成本。</li>
+                        <li>欧盟用户：遵守[GDPR合规声明]</li>
+                        <li>加州用户：适用[CCPA数据权利]</li>
+                        <li>其他地区：按原始服务商DPA执行</li>
+                    </ul>
+                    <p><strong>重要警示：</strong>通过国际云厂商处理中国公民个人信息，可能触发《中华人民共和国个人信息保护法》第三、五章规定的跨境传输监管要求。</p>
+
+                    <h4>2.3.2</h4>
+                    <p>平台收集的实名信息仅用于账号开通及反洗钱合规，用户授权平台将其实名信息共享至原厂用于合规审查，用户云端数据由云服务厂商直接管理，平台不具有任何技术能力访问、存储或备份用户的云端数据(包括API密钥及存储内容等）。若因用户故意或重大过失（包括但不限于故意提供虚假信息、明知账户被盗仍继续使用、规避平台风控规则等行为）导致第三方向平台追责，平台保留向用户追偿的权利。</p>
+                    <p>平台采用SSL/TLS加密技术保障用户数据传输安全，但数据存储与安全性由云服务厂商负责。</p>
+
+                    <h4>2.3.3</h4>
+                    <p>平台就其自行收集和处理的用户个人信息（如注册资料、实名认证信息、充值交易信息等）遵循平台制定的《隐私政策》，原厂云服务过程中产生或托管的数据则适用该云厂商的隐私政策。</p>
+
+                    <h4>2.3.4</h4>
+                    <p>用户应确保其上传、存储或处理的所有数据均符合中国及目标云服务厂商所在国家/地区的法律法规要求。平台不对用户数据的合法性、安全性或使用目的承担审查义务，但保留配合有权机关依法调查的权利。用户因数据违法或违规使用导致的任何法律责任、经济损失或其他后果，均由用户自行承担，平台不承担任何连带责任。</p>
+
+                    <h4>2.3.5</h4>
+                    <p>用户承诺不得通过本平台或关联云服务厂商账户实施任何违反《中华人民共和国网络安全法》《中华人民共和国数据安全法》《中华人民共和国个人信息保护法》及相关司法解释的行为，包括但不限于：</p>
+                    <ul>
+                        <li>使用云资源从事非法集资、赌博、诈骗等违法犯罪活动；</li>
+                        <li>绕过云服务厂商的安全防护措施或技术限制；</li>
+                        <li>利用平台服务规避实名认证、身份验证等合规要求。</li>
+                    </ul>
+                    <p>本协议未尽事项遵循云服务厂商的隐私政策。如原厂政策与本协议存在冲突，以本协议为准，除非法律另有强制性规定。</p>
+
+                    <h2>三、用户责任与义务</h2>
+                    <h3>3.1 合规要求</h3>
+                    <p>用户需确保注册信息真实有效，并配合原厂完成二次实名认证（如KYC、企业资质核验），若用户连续三次实名认证失败，将触发账户冻结机制。</p>
+                    <p><strong>禁止行为：</strong>为落实反洗钱、反恐怖融资及外汇管理法规要求通过本平台从事违法活动、滥用原厂服务或违反平台风控规则（如虚假充值、套利等），对单笔充值金额超过等值5万美元或频繁异常充值的交易，平台有权暂停服务并依法报告至监管部门（频繁异常充值指如单日充值次数异常密集或资金来源/用途与用户业务情况明显不符等）</p>
+
+                    <h3>3.2 风险自担</h3>
+                    <p>用户需自行承担因原厂服务故障、个人配置错误或安全漏洞所引发的全部损失，平台对此不承担任何连带责任。</p>
+                    <p>用户应妥善保管原厂账号及密码，因泄露导致的损失与平台无关。</p>
+
+                    <h2>四、平台责任与免责声明</h2>
+                    <h3>4.1 服务支持</h3>
+                    <p>平台应按照行业通用标准维护充值系统，负责保障优惠活动的真实性及账号开通效率。</p>
+                    <p>原厂服务变更（如价格调整、产品下线）可能影响平台服务的，平台应在获知原厂重大变更后，及时以合理方式通知用户，并告知用户新的服务方案或剩余资金退回通道，用户需及时关注平台公告。</p>
+
+                    <h3>4.2 免责条款</h3>
+                    <p><strong>不承诺内容：</strong>平台不保证原厂服务的可用性、安全性或兼容性，亦不对其技术故障、数据泄露或政策调整负责。用户因原厂服务质量问题、政策变更或技术故障导致的任何损失，均由用户与原厂直接协商解决，平台不承担任何赔偿责任。平台不承诺原厂服务的质量指标，用户知悉并接受不同原厂间的SLA差异，不得要求平台统一服务标准，具体SLA以各云厂商公布为准。同时，服务提供商应采取措施保护用户数据的安全，防止未经授权的访问和披露，并确保服务的可靠性和稳定性。各云厂商服务可用性承诺详见【厂商名称-SLA对照表】，或通过AI助手查询。</p>
+                    <p><strong>不可抗力：</strong>因自然灾害、网络攻击或政策监管导致的服务中断，平台可免责。</p>
+                    <p>若用户通过平台服务渠道，施违反法律法规或原厂服务条款的行为如：</p>
+                    <ul>
+                        <li>利用云资源实施网络攻击、传播恶意软件或非法信息；</li>
+                        <li>存储、传输或处理违反国家法律法规的数据（如侵犯他人隐私、版权侵权内容等）；</li>
+                        <li>违反云服务厂商的服务条款或安全政策；</li>
+                    </ul>
+                    <p>平台有权采取以下措施：</p>
+                    <ul>
+                        <li>立即冻结用户账号并暂停后续服务；</li>
+                        <li>向监管部门及原厂报告违规行为；</li>
+                        <li>配合执法机关调查，由此引发的法律纠纷、行政处罚或民事责任平台不承担因用户行为导致的直接或间接赔偿责任，除非平台存在故意或重大过失，或违反法定管理义务。</li>
+                    </ul>
+                    <p><strong>无过错免责：</strong></p>
+                    <p>平台在以下情形下不承担连带责任：</p>
+                    <ul>
+                        <li>用户通过非平台渠道（如直接联系原厂客服）实施违规行为；</li>
+                        <li>用户使用盗用他人身份信息注册或充值，平台已尽到基础实名认证义务；</li>
+                        <li>原厂服务本身存在技术缺陷或政策变更（如AWS突然调整API权限规则）；</li>
+                        <li>平台保留对用户行为的事后追溯权，但不承担事前预防责任；</li>
+                        <li>用户故意提供虚假信息、明知账户被盗仍继续使用、规避或绕过平台规则等行为。</li>
+                    </ul>
+                    <p>本平台仅为第三方代理服务商，不对亦无权限对用户通过原厂控制台实施的具体操作承担任何法律责任。请务必遵守各云厂商的服务条款及当地法律法规。</p>
+                    <p><strong>特别说明：</strong></p>
+                    <p>平台不具备亦无法实时监控用户全部云端操作的技术能力和法律义务，仅对用户通过本平台注册、充值流程的合规性承担责任。用户应严格遵守适用法律法规及云服务厂商的使用政策，因用户自身行为导致的后果由其独立承担。</p>
+
+                    <h2>五、其他条款</h2>
+                    <h3>5.1 协议更新</h3>
+                    <p>平台有权根据业务或合规要求修订本协议，修订内容通过平台官网显著位置公告或站内信丶用户注册邮箱丶经实名认证的联系电话通知，未在公告发布后十五日内书面提出异议或继续使用的，视为接受新条款。</p>
+                    <div class="bg-gray-50 border border-gray-200 p-4 rounded-lg mt-4">
+                        <p><strong>重点提示</strong></p>
+                        <ul>
+                            <li><strong>权限隔离：</strong>DeekCloud仅为服务代理方，用户与原厂间的权利义务关系独立于本协议。</li>
+                            <li><strong>操作路径：</strong>充值完成后，请至原厂控制台（如AWS Management Console、阿里云国际站）完成资源配置。</li>
+                            <li><strong>争议联系：</strong>原厂服务问题请直接联系对应厂商客服，平台提供必要协助但无决策权。</li>
+                        </ul>
+                    </div>
+
+                    <h2>六、法律适用、管辖与其他</h2>
+                    <h3>6.1 法律适用</h3>
+                    <p>本协议之订立、生效、解释、修订、补充、终止、执行与争议解决均适用中华人民共和国法律；如法律无相关规定的，参照商业惯例及行业惯例。</p>
+
+                    <h3>6.2 管辖</h3>
+                    <p>根据《最高人民法院关于审理技术合同纠纷案件适用法律若干问题的解释》第四十三条，技术服务合同纠纷案件一般由中级以上人民法院管辖。因此，您因使用喜云产品及服务所产生及与喜云公司有关的争议，首先应通过协商解决。若协商不成，任何一方均可向喜云（广东）云计算服务有限公司住所地有管辖权的人民法院提起诉讼。注册地或主要营业地位于中国境外的用户，应提交香港国际仲裁中心（HKIAC）按照其届时有效的仲裁规则进行仲裁，仲裁费用由败诉方承担，除非仲裁庭另有裁决。因争议解决产生的其他费用（包括但不限于律师费、调查费、差旅费等），亦由败诉方承担。仲裁裁决为终局决定，对双方均有约束力。</p>
+
+                    <h3>6.3 条款有效性</h3>
+                    <p>本协议任一条款被视为废止、无效或不可执行，该条件应视为可分的且并不影响本协议其余条款的有效性及可执行性。</p>
+
+                    <h2>附：原厂政策索引及术语解释</h2>
+                    <p>注：原厂条款更新以厂商官网为准。</p>
+                    <p>各原厂政策索引链接仅供参考效力，平台不对链接持续有效性及内容准确性承担责任。</p>
+                    <p>本协议所引用的各原厂服务条款、隐私政策及合规声明等，均以本协议签署时各原厂官网最新版本为准。原厂政策更新不视为对本协议内容的变更。</p>
+                    <ul>
+                        <li><strong>KYC认证：</strong>指用户身份验证流程</li>
+                        <li><strong>原厂控制台：</strong>指各云服务商提供的管理界面</li>
+                        <li><strong>SLA：</strong>指服务等级协议,指的是整个协议,其定义了服务类型、质量以及赔付标准等各云厂商服务条款以及隐私政策</li>
+                    </ul>
+                `
+            },
+            'cloud-console': {
+                content: `
+                    <h1 class="text-3xl font-bold text-gray-900 mb-8">云厂商控制台索引</h1>
+                    ${generateTable('阿里云', cloudData.aliyun.map(item => ({name: item.name, url: item.url.index})))}
+                    ${generateTable('腾讯云', cloudData.tencent.map(item => ({name: item.name, url: item.url.index})))}
+                    ${generateTable('华为云', cloudData.huawei.map(item => ({name: item.name, url: item.url.index})))}
+                    ${generateTable('国际云服务', cloudData.intl.map(item => ({name: item.name, url: item.url.index})))}
+                `
+            },
+            'cloud-privacy': {
+                content: `
+                    <h1 class="text-3xl font-bold text-gray-900 mb-8">云厂商隐私政策</h1>
+                    ${generateTable('阿里云', cloudData.aliyun.map(item => ({name: item.name, url: item.url.privacy})))}
+                    ${generateTable('腾讯云', cloudData.tencent.map(item => ({name: item.name, url: item.url.privacy})))}
+                    ${generateTable('华为云', cloudData.huawei.map(item => ({name: item.name, url: item.url.privacy})))}
+                    ${generateTable('国际云服务', cloudData.intl.map(item => ({name: item.name, url: item.url.privacy})))}
+                `
+            },
+            'cloud-service-terms': {
+                content: `
+                    <h1 class="text-3xl font-bold text-gray-900 mb-8">云厂商服务协议</h1>
+                    ${generateTable('阿里云', cloudData.aliyun.map(item => ({name: item.name, url: item.url.terms})))}
+                    ${generateTable('腾讯云', cloudData.tencent.map(item => ({name: item.name, url: item.url.terms})))}
+                    ${generateTable('华为云', cloudData.huawei.map(item => ({name: item.name, url: item.url.terms})))}
+                    ${generateTable('国际云服务', cloudData.intl.map(item => ({name: item.name, url: item.url.terms})))}
+                `
+            },
+            'cloud-sla': {
+                content: `
+                    <h1 class="text-3xl font-bold text-gray-900 mb-8">云厂商服务等级协议(SLA)</h1>
+                    ${generateTable('阿里云', cloudData.aliyun.map(item => ({name: item.name, url: item.url.sla})))}
+                    ${generateTable('腾讯云', cloudData.tencent.map(item => ({name: item.name, url: item.url.sla})))}
+                    ${generateTable('华为云', cloudData.huawei.map(item => ({name: item.name, url: item.url.sla})))}
+                    ${generateTable('国际云服务', cloudData.intl.map(item => ({name: item.name, url: item.url.sla})))}
+                `
+            }
+        };
+
+        // 折叠菜单逻辑
+        function toggleSubmenu(button) {
+            const container = button.closest('.submenu-container');
+            container.classList.toggle('submenu-open');
+        }
+
+        // 路由渲染逻辑
+        document.addEventListener('DOMContentLoaded', () => {
+            const docBody = document.getElementById('doc-body');
+            const navItems = document.querySelectorAll('.menu-item');
+
+            function renderContent() {
+                let hash = window.location.hash.substring(1);
+                if (!hash || !docData[hash]) {
+                    hash = 'home';
+                }
+
+                // 注入数据
+                const data = docData[hash];
+                
+                // 淡入淡出动画
+                docBody.style.opacity = 0;
+                setTimeout(() => {
+                    docBody.innerHTML = data.content;
+                    docBody.style.transition = 'opacity 0.3s ease-in-out';
+                    docBody.style.opacity = 1;
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                }, 150);
+
+                // 更新左侧菜单高亮状态及背景
+                navItems.forEach(item => {
+                    const itemHash = item.getAttribute('data-hash');
+                    
+                    if (itemHash === hash) {
+                        item.classList.add('bg-blue-50/80', 'text-primary');
+                        item.classList.remove('text-gray-600', 'text-gray-500');
+                        
+                        // 展开对应的父级菜单
+                        const parentContainer = item.closest('.submenu-container');
+                        if(parentContainer && !parentContainer.classList.contains('submenu-open')) {
+                            parentContainer.classList.add('submenu-open');
+                        }
+                    } else {
+                        item.classList.remove('bg-blue-50/80', 'text-primary');
+                        if (item.classList.contains('py-3')) { // 顶级菜单
+                            item.classList.add('text-gray-600');
+                        } else {
+                            item.classList.add('text-gray-500');
+                        }
+                    }
+                });
+            }
+
+            renderContent();
+            window.addEventListener('hashchange', renderContent);
+        });
+    </script>
+</body>
+</html>
